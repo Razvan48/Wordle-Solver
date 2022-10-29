@@ -1,11 +1,14 @@
 # Test Solver:
 
+import math
+
 def getBestWord(words):
 
     ALPHABET_SIZE = 26
     LETTERS_IN_WORD = 5
 
     frequency = [[0 for y in range(LETTERS_IN_WORD)] for x in range(ALPHABET_SIZE)]
+    probability = [[0 for y in range(LETTERS_IN_WORD)] for x in range(ALPHABET_SIZE)]
 
     for word in words:
         for letterIndex in range(LETTERS_IN_WORD):
@@ -13,24 +16,18 @@ def getBestWord(words):
 
     for rowIndex in range(ALPHABET_SIZE):
         for columnIndex in range(LETTERS_IN_WORD):
-            frequency[rowIndex][columnIndex] /= len(words)
+            probability[rowIndex][columnIndex] = frequency[rowIndex][columnIndex] / len(words)
 
     bestWord = words[0]
-    bestInformation = 0
+    bestEntropy = math.inf
 
     for word in words:
-        currentInformation = 0
+        currentEntropy = 0
         for letterIndex in range(LETTERS_IN_WORD):
-            currentInformation += frequency[ord(word[letterIndex]) - ord('A')][letterIndex]
-        if currentInformation > bestInformation:
-            bestInformation = currentInformation
+            currentEntropy += frequency[ord(word[letterIndex]) - ord('A')][letterIndex] * math.log2(1 / probability[ord(word[letterIndex]) - ord('A')][letterIndex])
+        if currentEntropy < bestEntropy:
+            bestEntropy = currentEntropy
             bestWord = word
-
-    #Pentru debug
-    #for rowIndex in range(ALPHABET_SIZE):
-    #    for columnIndex in range(LETTERS_IN_WORD):
-    #        print(frequency[rowIndex][columnIndex], end=' ')
-    #    print('\n')
 
     return bestWord
 
@@ -50,7 +47,7 @@ def readWords(address, words):
 
 if __name__ == '__main__':
     words = []
-    readWords('../database.txt', words)
+    readWords('../currentDataBase.txt', words)
     print(getBestWord(words))
 
 
