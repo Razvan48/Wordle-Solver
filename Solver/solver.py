@@ -26,6 +26,12 @@ def getBestWord(words):
             bestInformation = currentInformation
             bestWord = word
 
+    #Pentru debug
+    #for rowIndex in range(ALPHABET_SIZE):
+    #    for columnIndex in range(LETTERS_IN_WORD):
+    #        print(frequency[rowIndex][columnIndex], end=' ')
+    #    print('\n')
+
     return bestWord
 
 
@@ -45,7 +51,6 @@ def readWords(address, words):
 if __name__ == '__main__':
     words = []
     readWords('../database.txt', words)
-    print(words)
     print(getBestWord(words))
 
 
