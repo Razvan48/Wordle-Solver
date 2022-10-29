@@ -1,6 +1,7 @@
-# Test Solver:
+# Wordle Solver:
 
 import math
+import subprocess
 
 def getBestWord(words):
 
@@ -72,7 +73,7 @@ if __name__ == '__main__':
         file.write(bestWord)
         file.close()
 
-        exec('../Wordle/wordle.py')
+        subprocess.call('../Wordle/wordle.py', shell=True)
 
         file = open('../feedback.txt', 'r')
         feedback = file.read()
