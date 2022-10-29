@@ -64,7 +64,7 @@ if __name__ == '__main__':
 
     feedback = ''
 
-    while feedback != 'VVVVV':
+    while feedback != '':
         deleteUnwantedWords(words, feedback, bestWord)
 
         bestWord = getBestWord(words)
@@ -78,11 +78,11 @@ if __name__ == '__main__':
         feedback = file.read()
         file.close()
 
+    print(bestWord)
+
     file = open('../gameMode.txt', 'w')
     file.write('0')
     file.close()
-
-    print(bestWord)
 
 
 
