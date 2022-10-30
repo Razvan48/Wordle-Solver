@@ -3,6 +3,7 @@
 import random
 import pygame
 from sys import exit
+import os
 
 SCR_WIDTH = 600
 SCR_HEIGHT = 800
@@ -11,7 +12,7 @@ SCR_HEIGHT = 800
 pygame.init()
 screen = pygame.display.set_mode((SCR_WIDTH, SCR_HEIGHT))
 pygame.display.set_caption("Wordle")
-pygameIcon = pygame.image.load("WordleIcon.png")
+pygameIcon = pygame.image.load(os.path.join(os.path.dirname(__file__), "WordleIcon.png"))
 pygame.display.set_icon(pygameIcon)
 
 clock = pygame.time.Clock()
@@ -186,7 +187,7 @@ def checkDataBase(word):        # TODO : binary search / use a dict
 
 # Database
 database = []
-file = open('../dataBase.txt', 'r')
+file = open(os.path.join(os.path.dirname(__file__), "../database.txt"), 'r')
 fileline = file.readline()
 while fileline:
     fileline = fileline[:-1]

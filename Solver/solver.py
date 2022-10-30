@@ -2,6 +2,7 @@
 
 import math
 import subprocess
+import os
 
 def getBestWord(words):
 
@@ -56,32 +57,34 @@ def deleteUnwantedWords(words, feedback, word):              #TO DO
 
 
 if __name__ == '__main__':
-    file = open('../gameMode.txt', 'w')
+    file = open(os.path.join(os.path.dirname(__file__), '../gameMode.txt'), 'w')
     file.write('1')
     file.close()
 
     words = []
-    readWords('../dataBase.txt', words)
+    readWords(os.path.join(os.path.dirname(__file__), '../database.txt'), words)
 
     feedback = ''
+
+    subprocess.call(os.path.join(os.path.dirname(__file__), '../Wordle/wordle.py'), shell=True)
 
     while feedback != '':
         deleteUnwantedWords(words, feedback, bestWord)
 
         bestWord = getBestWord(words)
-        file = open('../currentWord.txt', 'w')
+        file = open(os.path.join(os.path.dirname(__file__), '../currentWord.txt'), 'w')
         file.write(bestWord)
         file.close()
 
-        subprocess.call('../Wordle/wordle.py', shell=True)
+        subprocess.call(os.path.join(os.path.dirname(__file__), '../Wordle/wordle.py'), shell=True)
 
-        file = open('../feedback.txt', 'r')
+        file = open(os.path.join(os.path.dirname(__file__), '../feedback.txt'), 'r')
         feedback = file.read()
         file.close()
 
     print(bestWord)
 
-    file = open('../gameMode.txt', 'w')
+    file = open(os.path.join(os.path.dirname(__file__), '../gameMode.txt'), 'w')
     file.write('0')
     file.close()
 
