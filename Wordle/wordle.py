@@ -249,72 +249,89 @@ def sendFeedback(clientMsg):
     #     connClient.close()
     #     break
 
-
-# Database
-database = []
-file = open(os.path.join(os.path.dirname(__file__), "../database.txt"), 'r')
-fileline = file.readline()
-while fileline:
-    fileline = fileline[:-1]
-    database.append(fileline)
+if __name__ == '__main__':
+    # Database
+    database = []
+    file = open(os.path.join(os.path.dirname(__file__), "../database.txt"), 'r')
     fileline = file.readline()
-file.close()
+    while fileline:
+        fileline = fileline[:-1]
+        database.append(fileline)
+        fileline = file.readline()
+    file.close()
 
-# Choose a random word
-hiddenWord = random.choice(database)
-print("Hidden word : ", hiddenWord)
+    # Choose a random word
+    hiddenWord = random.choice(database)
+    print("Hidden word : ", hiddenWord)
 
+    # time
+    getTicksLastFrame = 0
+    timer = 0
 
-while True:
+    while True:
 
-    if not playerInput:
-        # Listener first
-        bestWord = receiveBestWord()
+        # deltaTime in seconds.
+        t = pygame.time.get_ticks()
+        deltaTime = (t - getTicksLastFrame) / 1000.0
+        getTicksLastFrame = t
 
-        for i in range(5):
-            words[currentRow][i] = bestWord[i]
-        checkWord()
+        canReadWrite = False
+        if timer > 3.0:         # TODO : Find a good value for timer
+            timer = 0
+            canReadWrite = True
+        else:
+            timer += deltaTime
 
-        # Client second
-        fb = ""
-        for i in range(5):
-            fb += feedback[currentRow - 1][i]
-        sendFeedback(fb)
-    else:
-        # check keyboard input
+        # check exit
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
 
-            if not endGame:
-                checkInput(event)
+        if not endGame:
+            if not playerInput and canReadWrite:
+                # Listener first
+                bestWord = receiveBestWord()
 
-    # draw interface
-    textWidth = SCR_WIDTH // 2 - textWordle.get_width() // 2
-    screen.blit(textWordle, (textWidth, 50))
+                for i in range(5):
+                    words[currentRow][i] = bestWord[i]
+                checkWord()
 
-    # draw grid + characters
-    grid = Grid()
-    grid.draw()
+                # Client second
+                fb = ""
+                for i in range(5):
+                    fb += feedback[currentRow - 1][i]
+                sendFeedback(fb)
+            else:
+                # check keyboard input
+                for event in pygame.event.get():
+                        checkInput(event)
 
-    # draw win/loss
-    if endGame:
-        strResult = "LOSER"
-        colResult = "Red"
-        if winGame:
-            strResult = "WINNER"
-            colResult = "Green"
+        # draw interface
+        textWidth = SCR_WIDTH // 2 - textWordle.get_width() // 2
+        screen.blit(textWordle, (textWidth, 50))
 
-        textResult = titleFont.render(strResult, True, colResult)
-        textWidth = SCR_WIDTH // 2 - textResult.get_width() // 2
-        screen.blit(textResult, (textWidth, 100))
+        # draw grid + characters
+        grid = Grid()
+        grid.draw()
 
-    # refresh
-    pygame.display.update()
-    clock.tick(60)
-    screen.fill(backgroundColor)
+        # draw win/loss
+        if endGame:
+            strResult = "LOSER"
+            colResult = "Red"
+            if winGame:
+                strResult = "WINNER"
+                colResult = "Green"
 
-# TODO : Animation for each character
-# TODO : Show all characters
+            textResult = titleFont.render(strResult, True, colResult)
+            textWidth = SCR_WIDTH // 2 - textResult.get_width() // 2
+            screen.blit(textResult, (textWidth, 100))
+
+        # refresh
+        pygame.display.update()
+        clock.tick(60)
+        screen.fill(backgroundColor)
+
+    # TODO : Animation for each character
+    # TODO : Show all characters
 

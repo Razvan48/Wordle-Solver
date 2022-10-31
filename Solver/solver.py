@@ -3,6 +3,7 @@
 import math
 import subprocess
 import os
+import time
 
 # Solver Client + Listener
 from multiprocessing.connection import Client
@@ -12,6 +13,8 @@ from multiprocessing.connection import Listener
 #        Deocamdata deschide manual pe rand (jocul primul, dupa solver)
 wordlePath = os.path.join(os.path.dirname(__file__), '..\Wordle\wordle.py')
 print(wordlePath)
+os.startfile(wordlePath)
+
 
 # Client
 addressClient = ('localhost', 6000)
