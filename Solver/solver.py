@@ -86,7 +86,7 @@ def ok(currentWord, feedback, word):
     while index < len(feedback):
         if feedback[index] == 'V' and currentWord[index] != word[index]:
             return False
-        elif feedback[index] == 'G' and (not word[index] in (currentWord[:index] + currentWord[index + 1:])):
+        elif feedback[index] == 'G' and ((not word[index] in (currentWord[:index] + currentWord[index + 1:])) or currentWord[index] == word[index]):
             return False
         elif feedback[index] == 'N' and (word[index] in currentWord):
             return False
@@ -95,9 +95,11 @@ def ok(currentWord, feedback, word):
     return True
 
 def deleteUnwantedWords(words, feedback, word):
-
     if feedback == "":
         return
+
+    words.remove(word)
+
     index = 0
     while index < len(words):
         if (not ok(words[index], feedback, word)):
