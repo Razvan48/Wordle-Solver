@@ -5,8 +5,17 @@ import pygame
 from sys import exit
 import os
 
-playerInput = False      # TODO : value from gameMode.txt
+# Game Mode
+file = open(os.path.join(os.path.dirname(__file__), "..\gameMode.txt"), 'r')
+fileline = file.readline()
 
+playerInput = True
+if fileline[0] == "1":
+    playerInput = False
+
+file.close()
+
+# Solver Input
 if not playerInput:
     # Wordle Listener + Client
     from multiprocessing.connection import Listener
@@ -78,7 +87,7 @@ currentRow = 0
 currentColumn = 0
 
 endGame = False
-winGame = False
+wordsCounter = 0
 
 # classes + functions
 class Square:
@@ -139,7 +148,6 @@ class Grid:
 
 def wordFeedback():
     global hiddenWord
-    global winGame
     global endGame
 
     for i in range(5):
@@ -154,7 +162,6 @@ def wordFeedback():
                 feedback[currentRow][i] = 'N'
 
     if hiddenWord == "".join(words[currentRow]):
-        winGame = True
         endGame = True
 
 
@@ -162,16 +169,16 @@ def checkWord():
     global currentRow
     global currentColumn
     global endGame
+    global wordsCounter
 
     currentWord = ""
     for i in range(5):
         currentWord += words[currentRow][i]
 
     if checkDataBase(currentWord):
-        print("Next word")
-
         wordFeedback()
 
+        wordsCounter += 1
         currentRow += 1
         currentColumn = 0
     else:
@@ -190,25 +197,21 @@ def checkWord():
             words[5][c] = '0'
             feedback[5][c] = 'X'
 
-        # TODO remove : endGame = True
-        #               print("End game")
 
-
-def checkInput(event):
+def checkInput(eventToHandle):
     global currentRow
     global currentColumn
     global endGame
 
-    if event.type == pygame.KEYDOWN:
-        print(pygame.key.name(event.key))
-        if pygame.K_a <= event.key <= pygame.K_z:
+    if eventToHandle.type == pygame.KEYDOWN:
+        if pygame.K_a <= eventToHandle.key <= pygame.K_z:
             if currentColumn < 5:
-                words[currentRow][currentColumn] = pygame.key.name(event.key).upper()
+                words[currentRow][currentColumn] = pygame.key.name(eventToHandle.key).upper()
                 currentColumn += 1
-        elif event.key == pygame.K_BACKSPACE:
+        elif eventToHandle.key == pygame.K_BACKSPACE:
             currentColumn = max(currentColumn - 1, 0)
             words[currentRow][currentColumn] = '0'
-        elif event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
+        elif eventToHandle.key == pygame.K_RETURN or eventToHandle.key == pygame.K_KP_ENTER:
             if currentColumn == 5:
                 checkWord()
             else:
@@ -264,48 +267,49 @@ if __name__ == '__main__':
     hiddenWord = random.choice(database)
     print("Hidden word : ", hiddenWord)
 
-    # time
+    # Timer
     getTicksLastFrame = 0
+    checkForInputTimer = 3.0    # TODO : Find a good value for timer
     timer = 0
 
     while True:
-
-        # deltaTime in seconds.
+        # deltaTime in seconds
         t = pygame.time.get_ticks()
         deltaTime = (t - getTicksLastFrame) / 1000.0
         getTicksLastFrame = t
 
         canReadWrite = False
-        if timer > 3.0:         # TODO : Find a good value for timer
+        if timer > 3.0:
             timer = 0
             canReadWrite = True
         else:
             timer += deltaTime
 
-        # check exit
+        # Check Input
         for event in pygame.event.get():
+            # check exit
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
 
-        if not endGame:
-            if not playerInput and canReadWrite:
-                # Listener first
-                bestWord = receiveBestWord()
+            # check keyboard input
+            if playerInput and (not endGame):
+                checkInput(event)
 
-                for i in range(5):
-                    words[currentRow][i] = bestWord[i]
-                checkWord()
+        # Solver Input
+        if (not endGame) and (not playerInput) and canReadWrite:
+            # Listener first
+            bestWord = receiveBestWord()
 
-                # Client second
-                fb = ""
-                for i in range(5):
-                    fb += feedback[currentRow - 1][i]
-                sendFeedback(fb)
-            else:
-                # check keyboard input
-                for event in pygame.event.get():
-                        checkInput(event)
+            for i in range(5):
+                words[currentRow][i] = bestWord[i]
+            checkWord()
+
+            # Client second
+            fb = ""
+            for i in range(5):
+                fb += feedback[currentRow - 1][i]
+            sendFeedback(fb)
 
         # draw interface
         textWidth = SCR_WIDTH // 2 - textWordle.get_width() // 2
@@ -317,21 +321,20 @@ if __name__ == '__main__':
 
         # draw win/loss
         if endGame:
-            strResult = "LOSER"
-            colResult = "Red"
-            if winGame:
-                strResult = "WINNER"
-                colResult = "Green"
-
-            textResult = titleFont.render(strResult, True, colResult)
+            textResult = titleFont.render("WINNER", True, "Green")
             textWidth = SCR_WIDTH // 2 - textResult.get_width() // 2
             screen.blit(textResult, (textWidth, 100))
+
+        # draw words counter
+        textCounter = titleFont.render("Counter : " + str(wordsCounter), True, "White")
+        textWidth = SCR_WIDTH // 2 - textCounter.get_width() // 2
+        screen.blit(textCounter, (textWidth, 660))
 
         # refresh
         pygame.display.update()
         clock.tick(60)
         screen.fill(backgroundColor)
 
-    # TODO : Animation for each character
-    # TODO : Show all characters
+# TODO : Animation for each character
+# TODO : Show all characters
 

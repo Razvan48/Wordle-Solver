@@ -1,20 +1,16 @@
 # Wordle Solver:
 
 import math
-import subprocess
 import os
-import time
 
 # Solver Client + Listener
 from multiprocessing.connection import Client
 from multiprocessing.connection import Listener
 
-# TODO : Open Wordle game
-#        Deocamdata deschide manual pe rand (jocul primul, dupa solver)
+# Open Wordle game
 wordlePath = os.path.join(os.path.dirname(__file__), '..\Wordle\wordle.py')
 print(wordlePath)
 os.startfile(wordlePath)
-
 
 # Client
 addressClient = ('localhost', 6000)
@@ -102,7 +98,7 @@ def deleteUnwantedWords(words, feedback, word):
 
     index = 0
     while index < len(words):
-        if (not ok(words[index], feedback, word)):
+        if not ok(words[index], feedback, word):
             words.remove(words[index])
             index -= 1
         index += 1
@@ -110,6 +106,7 @@ def deleteUnwantedWords(words, feedback, word):
 def sendBestWord(word):
     word = word.upper()
     connClient.send(word)
+    print("Send to game : ", word)
 
     # TODO : close
     # if word == "exit":
@@ -149,9 +146,7 @@ if __name__ == '__main__':
         if feedback == "VVVVV":
             wordToSend = "exit"
         else:
-            # TODO : doar pt test - trb gasit urmatorul cuvant
             wordToSend = getBestWord(words)
-            time.sleep(0.5)
 
         # Daca am gasit cuvantul corect -> termina programul
         if wordToSend == "exit":
@@ -162,29 +157,4 @@ if __name__ == '__main__':
         feedback = receiveFeedback()
 
         deleteUnwantedWords(words, feedback, wordToSend)
-
-
-    # while feedback != '':
-    #     deleteUnwantedWords(words, feedback, bestWord)
-    #
-    #     bestWord = getBestWord(words)
-    #     file = open(os.path.join(os.path.dirname(__file__), '../currentWord.txt'), 'w')
-    #     file.write(bestWord)
-    #     file.close()
-    #
-    #     subprocess.call(os.path.join(os.path.dirname(__file__), '../Wordle/wordle.py'), shell=True)
-    #
-    #     file = open(os.path.join(os.path.dirname(__file__), '../feedback.txt'), 'r')
-    #     feedback = file.read()
-    #     file.close()
-    #
-    # print(bestWord)
-    #
-    # file = open(os.path.join(os.path.dirname(__file__), '../gameMode.txt'), 'w')
-    # file.write('0')
-    # file.close()
-
-
-
-
 
