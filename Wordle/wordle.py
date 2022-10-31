@@ -5,6 +5,25 @@ import pygame
 from sys import exit
 import os
 
+playerInput = False      # TODO : value from gameMode.txt
+
+if not playerInput:
+    # Wordle Listener + Client
+    from multiprocessing.connection import Listener
+    from multiprocessing.connection import Client
+
+    # Listener
+    addressListener = ('localhost', 6000)     # family is deduced to be 'AF_INET'
+    listener = Listener(addressListener, authkey=b'secret password')
+    connListener = listener.accept()
+    print('connection accepted from', listener.last_accepted)
+
+    # Client
+    addressClient = ('localhost', 6001)
+    connClient = Client(addressClient, authkey=b'secret password')
+
+
+# Window Configuration
 SCR_WIDTH = 600
 SCR_HEIGHT = 800
 
@@ -139,6 +158,42 @@ def wordFeedback():
         endGame = True
 
 
+def checkWord():
+    global currentRow
+    global currentColumn
+    global endGame
+
+    currentWord = ""
+    for i in range(5):
+        currentWord += words[currentRow][i]
+
+    if checkDataBase(currentWord):
+        print("Next word")
+
+        wordFeedback()
+
+        currentRow += 1
+        currentColumn = 0
+    else:
+        print("Word isn't in database")
+
+    if currentRow == 6:
+        # Move words[][] + feedback[][]
+        for r in range(5):
+            words[r] = words[r + 1].copy()
+            feedback[r] = feedback[r + 1].copy()
+
+        currentRow = 5
+        currentColumn = 0
+
+        for c in range(5):
+            words[5][c] = '0'
+            feedback[5][c] = 'X'
+
+        # TODO remove : endGame = True
+        #               print("End game")
+
+
 def checkInput(event):
     global currentRow
     global currentColumn
@@ -155,34 +210,44 @@ def checkInput(event):
             words[currentRow][currentColumn] = '0'
         elif event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
             if currentColumn == 5:
-
-                currentWord = ""
-                for i in range(5):
-                    currentWord += words[currentRow][i]
-
-                if checkDataBase(currentWord):
-                    print("Next word")
-
-                    wordFeedback()
-
-                    currentRow += 1
-                    currentColumn = 0
-                else:
-                    print("Word isn't in database")
-
-                if currentRow == 6:
-                    endGame = True
-                    print("End game")
+                checkWord()
             else:
                 print("Word is not valid")  # TODO : invalid word
 
 
 def checkDataBase(word):        # TODO : binary search / use a dict
     global database
+
     for w in database:
         if w == word:
             return True
     return False
+
+
+listenerMsg = ''
+def receiveBestWord():
+    global listenerMsg
+
+    if listenerMsg != "exit":
+        listenerMsg = connListener.recv()
+        print("From solver : ", listenerMsg)
+
+        # TODO : close
+        # if listenerMsg == "exit":
+        #     connListener.close()
+        #     listener.close()
+
+    return listenerMsg
+
+
+def sendFeedback(clientMsg):
+    print("Send to solver : " + clientMsg)
+    connClient.send(clientMsg)
+
+    # TODO : close
+    # if clientMsg == "exit":
+    #     connClient.close()
+    #     break
 
 
 # Database
@@ -201,14 +266,29 @@ print("Hidden word : ", hiddenWord)
 
 
 while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            exit()
 
+    if not playerInput:
+        # Listener first
+        bestWord = receiveBestWord()
+
+        for i in range(5):
+            words[currentRow][i] = bestWord[i]
+        checkWord()
+
+        # Client second
+        fb = ""
+        for i in range(5):
+            fb += feedback[currentRow - 1][i]
+        sendFeedback(fb)
+    else:
         # check keyboard input
-        if not endGame:
-            checkInput(event)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+
+            if not endGame:
+                checkInput(event)
 
     # draw interface
     textWidth = SCR_WIDTH // 2 - textWordle.get_width() // 2

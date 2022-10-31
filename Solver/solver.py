@@ -4,6 +4,26 @@ import math
 import subprocess
 import os
 
+# Solver Client + Listener
+from multiprocessing.connection import Client
+from multiprocessing.connection import Listener
+
+# TODO : Open Wordle game
+#        Deocamdata deschide manual pe rand (jocul primul, dupa solver)
+wordlePath = os.path.join(os.path.dirname(__file__), '..\Wordle\wordle.py')
+print(wordlePath)
+
+# Client
+addressClient = ('localhost', 6000)
+connClient = Client(addressClient, authkey=b'secret password')
+
+# Listener
+addressListener = ('localhost', 6001)
+listener = Listener(addressListener, authkey=b'secret password')
+connListener = listener.accept()
+print('connection accepted from', listener.last_accepted)
+
+
 def getBestWord(words):
 
     ALPHABET_SIZE = 26
@@ -51,9 +71,32 @@ def readWords(address, words):
 
 def deleteUnwantedWords(words, feedback, word):              #TO DO
     if feedback == '':
-        return;
+        return
 
-    # TO DO
+def sendBestWord(word):
+    word = word.upper()
+    connClient.send(word)
+
+    # TODO : close
+    # if word == "exit":
+    #     connClient.close()
+    #     break
+
+
+listenerMsg = ''
+def receiveFeedback():
+    global listenerMsg
+
+    if listenerMsg != "exit":
+        listenerMsg = connListener.recv()
+        print("From game : ", listenerMsg)
+
+        # TODO : close
+        # if listenerMsg == "exit":
+        #     connListener.close()
+        #     listener.close()
+
+    return listenerMsg
 
 
 if __name__ == '__main__':
@@ -64,29 +107,45 @@ if __name__ == '__main__':
     words = []
     readWords(os.path.join(os.path.dirname(__file__), '../database.txt'), words)
 
-    feedback = ''
+    feedback = ""
 
-    subprocess.call(os.path.join(os.path.dirname(__file__), '../Wordle/wordle.py'), shell=True)
+    # Main loop
+    while True:
 
-    while feedback != '':
-        deleteUnwantedWords(words, feedback, bestWord)
+        if feedback == "VVVVV":
+            wordToSend = "exit"
+        else:
+            # TODO : doar pt test - trb gasit urmatorul cuvant
+            wordToSend = str(input("Send to game : "))
 
-        bestWord = getBestWord(words)
-        file = open(os.path.join(os.path.dirname(__file__), '../currentWord.txt'), 'w')
-        file.write(bestWord)
-        file.close()
+        # Daca am gasit cuvantul corect -> termina programul
+        if wordToSend == "exit":
+            break
 
-        subprocess.call(os.path.join(os.path.dirname(__file__), '../Wordle/wordle.py'), shell=True)
+        # Altfel continua sa ghicesti
+        sendBestWord(wordToSend)
+        feedback = receiveFeedback()
 
-        file = open(os.path.join(os.path.dirname(__file__), '../feedback.txt'), 'r')
-        feedback = file.read()
-        file.close()
 
-    print(bestWord)
-
-    file = open(os.path.join(os.path.dirname(__file__), '../gameMode.txt'), 'w')
-    file.write('0')
-    file.close()
+    # while feedback != '':
+    #     deleteUnwantedWords(words, feedback, bestWord)
+    #
+    #     bestWord = getBestWord(words)
+    #     file = open(os.path.join(os.path.dirname(__file__), '../currentWord.txt'), 'w')
+    #     file.write(bestWord)
+    #     file.close()
+    #
+    #     subprocess.call(os.path.join(os.path.dirname(__file__), '../Wordle/wordle.py'), shell=True)
+    #
+    #     file = open(os.path.join(os.path.dirname(__file__), '../feedback.txt'), 'r')
+    #     feedback = file.read()
+    #     file.close()
+    #
+    # print(bestWord)
+    #
+    # file = open(os.path.join(os.path.dirname(__file__), '../gameMode.txt'), 'w')
+    # file.write('0')
+    # file.close()
 
 
 
