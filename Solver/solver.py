@@ -90,7 +90,7 @@ def deleteUnwantedWords(words, feedback, word):              #TO DO
     index = 0
     while index < len(words):
         if (not ok(words[index], feedback, word)):
-            words.delete(words[index])
+            words.remove(words[index])
             index -= 1
         index += 1
 
@@ -137,7 +137,8 @@ if __name__ == '__main__':
             wordToSend = "exit"
         else:
             # TODO : doar pt test - trb gasit urmatorul cuvant
-            wordToSend = str(input("Send to game : "))
+            wordToSend = getBestWord(words)
+            time.sleep(0.5)
 
         # Daca am gasit cuvantul corect -> termina programul
         if wordToSend == "exit":
@@ -146,6 +147,8 @@ if __name__ == '__main__':
         # Altfel continua sa ghicesti
         sendBestWord(wordToSend)
         feedback = receiveFeedback()
+
+        deleteUnwantedWords(words, feedback, wordToSend)
 
 
     # while feedback != '':
