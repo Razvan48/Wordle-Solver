@@ -7,6 +7,11 @@ import os
 from multiprocessing.connection import Client
 from multiprocessing.connection import Listener
 
+#Set gameMode = 1
+file = open(os.path.join(os.path.dirname(__file__), '../gameMode.txt'), 'w')
+file.write('1')
+file.close()
+
 # Open Wordle game
 wordlePath = os.path.join(os.path.dirname(__file__), '..\Wordle\wordle.py')
 print(wordlePath)
@@ -131,9 +136,6 @@ def receiveFeedback():
 
 
 if __name__ == '__main__':
-    file = open(os.path.join(os.path.dirname(__file__), '../gameMode.txt'), 'w')
-    file.write('1')
-    file.close()
 
     words = []
     readWords(os.path.join(os.path.dirname(__file__), '../database.txt'), words)
@@ -158,3 +160,6 @@ if __name__ == '__main__':
 
         deleteUnwantedWords(words, feedback, wordToSend)
 
+    file = open(os.path.join(os.path.dirname(__file__), '../gameMode.txt'), 'w')
+    file.write('0')
+    file.close()
