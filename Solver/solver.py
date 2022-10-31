@@ -23,11 +23,10 @@ listener = Listener(addressListener, authkey=b'secret password')
 connListener = listener.accept()
 print('connection accepted from', listener.last_accepted)
 
+ALPHABET_SIZE = 26
+LETTERS_IN_WORD = 5
 
 def getBestWord(words):
-
-    ALPHABET_SIZE = 26
-    LETTERS_IN_WORD = 5
 
     frequency = [[0 for y in range(LETTERS_IN_WORD)] for x in range(ALPHABET_SIZE)]
     probability = [[0 for y in range(LETTERS_IN_WORD)] for x in range(ALPHABET_SIZE)]
@@ -68,10 +67,29 @@ def readWords(address, words):
         words[index] = words[index][:-1]
         index += 1
 
+def ok(currentWord, feedback, word):
+    index = 0
+    while index < len(feedback):
+        if feedback[index] == 'V' and currentWord[index] != word[index]:
+            return False
+        elif feedback[index] == 'G' and (not word[index] in currentWord):
+            return False
+        elif feedback[index] == 'N' and (word[index] in currentWord):
+            return False
+        index += 1
+
+    return True
 
 def deleteUnwantedWords(words, feedback, word):              #TO DO
-    if feedback == '':
+
+    if feedback == "":
         return
+    index = 0
+    while index < len(words):
+        if (not ok(words[index], feedback, word)):
+            words.delete(words[index])
+            index -= 1
+        index += 1
 
 def sendBestWord(word):
     word = word.upper()
