@@ -42,15 +42,26 @@ def getBestWord(words):
         for columnIndex in range(LETTERS_IN_WORD):
             probability[rowIndex][columnIndex] = frequency[rowIndex][columnIndex] / len(words)
 
+    # bestWord = words[0]
+    # bestEntropy = math.inf
+    #
+    # for word in words:
+    #     currentEntropy = 0
+    #     for letterIndex in range(LETTERS_IN_WORD):
+    #         currentEntropy += frequency[ord(word[letterIndex]) - ord('A')][letterIndex] * math.log2(1 / probability[ord(word[letterIndex]) - ord('A')][letterIndex])
+    #     if currentEntropy < bestEntropy:
+    #         bestEntropy = currentEntropy
+    #         bestWord = word
+
     bestWord = words[0]
-    bestEntropy = math.inf
+    bestInformation = 0
 
     for word in words:
-        currentEntropy = 0
+        currentInformation = 0
         for letterIndex in range(LETTERS_IN_WORD):
-            currentEntropy += frequency[ord(word[letterIndex]) - ord('A')][letterIndex] * math.log2(1 / probability[ord(word[letterIndex]) - ord('A')][letterIndex])
-        if currentEntropy < bestEntropy:
-            bestEntropy = currentEntropy
+            currentInformation += frequency[ord(word[letterIndex]) - ord('A')][letterIndex]
+        if currentInformation > bestInformation:
+            bestInformation = currentInformation
             bestWord = word
 
     return bestWord
@@ -75,7 +86,7 @@ def ok(currentWord, feedback, word):
     while index < len(feedback):
         if feedback[index] == 'V' and currentWord[index] != word[index]:
             return False
-        elif feedback[index] == 'G' and (not word[index] in currentWord):
+        elif feedback[index] == 'G' and (not word[index] in (currentWord[:index] + currentWord[index + 1:])):
             return False
         elif feedback[index] == 'N' and (word[index] in currentWord):
             return False
@@ -83,7 +94,7 @@ def ok(currentWord, feedback, word):
 
     return True
 
-def deleteUnwantedWords(words, feedback, word):              #TO DO
+def deleteUnwantedWords(words, feedback, word):
 
     if feedback == "":
         return
