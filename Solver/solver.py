@@ -43,6 +43,8 @@ def getBestWord(words):
         for columnIndex in range(LETTERS_IN_WORD):
             probability[rowIndex][columnIndex] = frequency[rowIndex][columnIndex] / len(words)
 
+    ###Start metoda1
+
     # bestWord = words[0]
     # bestEntropy = math.inf
     #
@@ -54,6 +56,10 @@ def getBestWord(words):
     #         bestEntropy = currentEntropy
     #         bestWord = word
 
+    ###End metoda1
+
+    ###Start metoda2
+
     bestWord = words[0]
     bestInformation = 0
 
@@ -64,6 +70,8 @@ def getBestWord(words):
         if currentInformation > bestInformation:
             bestInformation = currentInformation
             bestWord = word
+
+    ###End metoda2
 
     return bestWord
 
