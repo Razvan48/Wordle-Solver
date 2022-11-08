@@ -253,6 +253,7 @@ def sendFeedback(clientMsg):
     #     break
 
 if __name__ == '__main__':
+
     # Database
     database = []
     file = open(os.path.join(os.path.dirname(__file__), "../database.txt"), 'r')
@@ -279,7 +280,7 @@ if __name__ == '__main__':
         getTicksLastFrame = t
 
         canReadWrite = False
-        if timer > 3.0:
+        if timer > checkForInputTimer:
             timer = 0
             canReadWrite = True
         else:
