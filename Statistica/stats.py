@@ -4,6 +4,8 @@ import os
 from sol import solution1
 from sol import solution2
 
+sol = solution1()       # TODO : solution1 / solution2
+
 def getFeedback(word):
     # N = negru
     # V = verde
@@ -34,13 +36,13 @@ if __name__ == '__main__':
 
         while True:
             # genereaza urmatorul cuvant folosind functia din solver -> getBestWorld
-            bestWord = solution1.getBestWord(words)
+            bestWord = sol.getBestWord(words)
 
             # verifica cuvantul si trimite feedback
             feedback = getFeedback(bestWord)
 
             # actualizeaza lista
-            solution1.deleteUnwantedWords(words, feedback, bestWord)
+            sol.deleteUnwantedWords(words, feedback, bestWord)
 
             # Next Word
             if endGame:

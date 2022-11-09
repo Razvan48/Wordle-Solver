@@ -6,7 +6,7 @@ ALPHABET_SIZE = 26
 LETTERS_IN_WORD = 5
 
 class solution1:
-    def getBestWord(words):
+    def getBestWord(self, words):
 
         frequency = [[0 for y in range(LETTERS_IN_WORD)] for x in range(ALPHABET_SIZE)]
         probability = [[0 for y in range(LETTERS_IN_WORD)] for x in range(ALPHABET_SIZE)]
@@ -19,23 +19,6 @@ class solution1:
             for columnIndex in range(LETTERS_IN_WORD):
                 probability[rowIndex][columnIndex] = frequency[rowIndex][columnIndex] / len(words)
 
-        ###Start metoda1
-
-        # bestWord = words[0]
-        # bestEntropy = math.inf
-        #
-        # for word in words:
-        #     currentEntropy = 0
-        #     for letterIndex in range(LETTERS_IN_WORD):
-        #         currentEntropy += frequency[ord(word[letterIndex]) - ord('A')][letterIndex] * math.log2(1 / probability[ord(word[letterIndex]) - ord('A')][letterIndex])
-        #     if currentEntropy < bestEntropy:
-        #         bestEntropy = currentEntropy
-        #         bestWord = word
-
-        ###End metoda1
-
-        ###Start metoda2
-
         bestWord = words[0]
         bestInformation = 0
 
@@ -47,11 +30,9 @@ class solution1:
                 bestInformation = currentInformation
                 bestWord = word
 
-        ###End metoda2
-
         return bestWord
 
-    def ok(currentWord, feedback, word):
+    def ok(self, currentWord, feedback, word):
         index = 0
         while index < len(feedback):
             if feedback[index] == 'V' and currentWord[index] != word[index]:
@@ -64,7 +45,7 @@ class solution1:
 
         return True
 
-    def deleteUnwantedWords(words, feedback, word):
+    def deleteUnwantedWords(self, words, feedback, word):
         if feedback == "":
             return
 
@@ -72,7 +53,7 @@ class solution1:
 
         index = 0
         while index < len(words):
-            if not ok(words[index], feedback, word):
+            if not self.ok(words[index], feedback, word):
                 words.remove(words[index])
                 index -= 1
             index += 1
@@ -123,7 +104,7 @@ class solution2:
             return
 
         words.remove(word)
-
+        
         index = 0
         while index < len(words):
             if not ok(words[index], feedback, word):
