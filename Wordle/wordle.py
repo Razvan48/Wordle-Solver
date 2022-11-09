@@ -215,7 +215,7 @@ def checkInput(eventToHandle):
             if currentColumn == 5:
                 checkWord()
             else:
-                print("Word is not valid")  # TODO : invalid word
+                print("Word is not valid")      # TODO : invalid word
 
 
 def checkDataBase(word):        # TODO : binary search / use a dict
@@ -251,6 +251,7 @@ def sendFeedback(clientMsg):
     # if clientMsg == "exit":
     #     connClient.close()
     #     break
+
 
 if __name__ == '__main__':
 
@@ -338,4 +339,5 @@ if __name__ == '__main__':
 
 # TODO : Animation for each character
 # TODO : Show all characters
+# TODO : words[][] and feedback[][] -> Configure based on a variable (tableRows = 6)
 
