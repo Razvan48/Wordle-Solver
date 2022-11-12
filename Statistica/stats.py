@@ -33,7 +33,7 @@ if __name__ == '__main__':
         endGame = False
         number_of_tries = 0
         # Lista cuvinte posibile (o modificam in functie de feedback)
-        words = database
+        words = database.copy()
         #file = open(os.path.join(os.path.dirname(__file__), "medie1.txt"), 'a')
         #file.write("x")
         while endGame == False:
@@ -45,11 +45,11 @@ if __name__ == '__main__':
                 endGame = True
             # Next Word
             if endGame:
-                #file = open(os.path.join(os.path.dirname(__file__), "medie1.txt"), 'w')
-                #file.write("NR INCERCARI: " + number_of_tries)
-                #file.write("\n")
-                #file.close()
-                print(hiddenWord)
+                file = open(os.path.join(os.path.dirname(__file__), "medie1.txt"), 'w')
+                file.write("NR INCERCARI: " + str(number_of_tries))
+                file.write("\n")
+                file.close()
+                #print(hiddenWord)
 
 
     # Scrie in medie.txt media finala
