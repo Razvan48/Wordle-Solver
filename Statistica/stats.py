@@ -3,8 +3,9 @@ import os
 # importa metodele de rezolvare din sol.py
 from sol import solution1
 from sol import solution2
+from sol import solution3
 
-sol = solution1()       # TODO : solution1 / solution2
+sol = solution2()       # TODO : solution1 / solution2
 def getFeedback(word, hiddenWord):
     feedback = []
     for i in range(5):

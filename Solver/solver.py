@@ -60,8 +60,23 @@ def getBestWord(words):
 
     ###Start metoda2
 
-    bestWord = words[0]
-    bestEntropy = 0
+    # bestWord = words[0]
+    # bestEntropy = 0
+    #
+    # for word in words:
+    #     currentEntropy = 0
+    #     for letterIndex in range(LETTERS_IN_WORD):
+    #         currentEntropy += probability[ord(word[letterIndex]) - ord('A')][letterIndex] * math.log2(1 / probability[ord(word[letterIndex]) - ord('A')][letterIndex])
+    #     if currentEntropy > bestEntropy:
+    #         bestEntropy = currentEntropy
+    #         bestWord = word
+
+    ###End metoda2
+
+    ###Start metoda3
+
+    bestWords = []
+    bestEntropy = -1
 
     for word in words:
         currentEntropy = 0
@@ -69,11 +84,20 @@ def getBestWord(words):
             currentEntropy += probability[ord(word[letterIndex]) - ord('A')][letterIndex] * math.log2(1 / probability[ord(word[letterIndex]) - ord('A')][letterIndex])
         if currentEntropy > bestEntropy:
             bestEntropy = currentEntropy
-            bestWord = word
+            bestWords.clear()
+            bestWords.append(word)
+        else:
+            if currentEntropy == bestEntropy:
+                bestWords.append(word)
 
-    ###End metoda2
+    if len(bestWords) == len(words):
+        return bestWords[0]
+    else:
+        getBestWord(bestWords)
 
-    return bestWord
+    ###End metoda3
+
+    return bestWords
 
 
 def readWords(address, words):
