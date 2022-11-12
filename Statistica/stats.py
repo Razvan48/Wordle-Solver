@@ -6,15 +6,17 @@ from sol import solution2
 
 sol = solution1()       # TODO : solution1 / solution2
 def getFeedback(word, hiddenWord):
-    nr_letters = 5
     feedback = []
-    for i in range(nr_letters):
+    for i in range(5):
         if hiddenWord[i] == word[i]:
             feedback.append('V')
-        elif word[i] in hiddenWord:
-            feedback.append('G')
         else:
-            feedback.append('N')
+            for j in range(5):
+                if hiddenWord[j] == word[i]:
+                    feedback.append('G')
+                    break
+            else:
+                feedback.append('N')
     return feedback
 
 if __name__ == '__main__':
@@ -28,30 +30,39 @@ if __name__ == '__main__':
         database.append(fileline)
         fileline = file.readline()
     file.close()
+    file = open(os.path.join(os.path.dirname(__file__), "metoda1Cuvinte.txt"), 'w')
+    suma = 0
     for i in range(len(database)):
         hiddenWord = database[i]
         endGame = False
-        number_of_tries = 0
-        # Lista cuvinte posibile (o modificam in functie de feedback)
         words = database.copy()
-        #file = open(os.path.join(os.path.dirname(__file__), "medie1.txt"), 'a')
-        #file.write("x")
-        while endGame == False:
+        lant_incercari = []
+        while True:
             bestWord = sol.getBestWord(words)
-            number_of_tries += 1
+            lant_incercari.append(bestWord)
             feedback = getFeedback(bestWord, hiddenWord)
             sol.deleteUnwantedWords(words, feedback, bestWord)
             if bestWord == hiddenWord:
                 endGame = True
             # Next Word
             if endGame:
-                file = open(os.path.join(os.path.dirname(__file__), "medie1.txt"), 'w')
-                file.write("NR INCERCARI: " + str(number_of_tries))
+                suma += len(lant_incercari)
+                file.write("CUVANT: " + hiddenWord)
                 file.write("\n")
-                file.close()
+                file.write("NUMAR INCERCARI: " + str(len(lant_incercari)))
+                file.write("\n")
+
+                for i in range(len(lant_incercari)):
+                    file.write(lant_incercari[i] + " ")
+                file.write("\n\n")
+                break
                 #print(hiddenWord)
 
-
+    file.close()
+    file = open(os.path.join(os.path.dirname(__file__), "medie1.txt"), 'w')
+    medie = suma / len(database)
+    file.write("Media este: " + str(medie))
+    file.close()
     # Scrie in medie.txt media finala
 
 # TODO : statistica pt ambele solutii in 2 fisiere diferite
