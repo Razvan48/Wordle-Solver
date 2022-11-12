@@ -150,6 +150,10 @@ if __name__ == '__main__':
 
     feedback = ""
 
+    file = open(os.path.join(os.path.dirname(__file__), '../gameMode.txt'), 'w')
+    file.write('0')
+    file.close()
+
     # Main loop
     while True:
 
@@ -167,8 +171,4 @@ if __name__ == '__main__':
         feedback = receiveFeedback()
 
         deleteUnwantedWords(words, feedback, wordToSend)
-
-    file = open(os.path.join(os.path.dirname(__file__), '../gameMode.txt'), 'w')
-    file.write('0')
-    file.close()
 

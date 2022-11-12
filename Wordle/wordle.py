@@ -22,7 +22,7 @@ if not playerInput:
     from multiprocessing.connection import Client
 
     # Listener
-    addressListener = ('localhost', 6000)     # family is deduced to be 'AF_INET'
+    addressListener = ('localhost', 6000)  # family is deduced to be 'AF_INET'
     listener = Listener(addressListener, authkey=b'secret password')
     connListener = listener.accept()
     print('connection accepted from', listener.last_accepted)
@@ -30,7 +30,6 @@ if not playerInput:
     # Client
     addressClient = ('localhost', 6001)
     connClient = Client(addressClient, authkey=b'secret password')
-
 
 # Window Configuration
 SCR_WIDTH = 600
@@ -50,44 +49,45 @@ backgroundColor = (18, 18, 19)
 screen.fill(backgroundColor)
 
 # Text
-titleFont = pygame.font.Font(None, 50)                       # TODO : ADD NEW FONT
-charFont = pygame.font.Font(None, 64)                        # TODO : 64 = gridSquareSize - gridSpace * 2
+titleFont = pygame.font.Font(None, 50)  # TODO : ADD NEW FONT
+charFont = pygame.font.Font(None, 64)  # TODO : 64 = gridSquareSize - gridSpace * 2
 textWordle = titleFont.render("Wordle", True, "White")
 
 # Grid Configuration
-squareSpace = 8             # TODO : find a good value (between squares)
-gridSpace = 3               # TODO : find a good value (between grid and fill square)
-gridSquareSize = 70         # TODO : find a good value (grid size)
-startSquareHeight = 150     # TODO : find a good value
+squareSpace = 8  # TODO : find a good value (between squares)
+gridSpace = 3  # TODO : find a good value (between grid and fill square)
+gridSquareSize = 70  # TODO : find a good value (grid size)
+startSquareHeight = 150  # TODO : find a good value
 
 # Words
 words = [
-            ['0', '0', '0', '0', '0'],
-            ['0', '0', '0', '0', '0'],
-            ['0', '0', '0', '0', '0'],
-            ['0', '0', '0', '0', '0'],
-            ['0', '0', '0', '0', '0'],
-            ['0', '0', '0', '0', '0']
-        ]
+    ['0', '0', '0', '0', '0'],
+    ['0', '0', '0', '0', '0'],
+    ['0', '0', '0', '0', '0'],
+    ['0', '0', '0', '0', '0'],
+    ['0', '0', '0', '0', '0'],
+    ['0', '0', '0', '0', '0']
+]
 
 # N = negru
 # V = verde
 # G = galben
 # X = neutru
-feedback =  [
-                ['X', 'X', 'X', 'X', 'X'],
-                ['X', 'X', 'X', 'X', 'X'],
-                ['X', 'X', 'X', 'X', 'X'],
-                ['X', 'X', 'X', 'X', 'X'],
-                ['X', 'X', 'X', 'X', 'X'],
-                ['X', 'X', 'X', 'X', 'X']
-            ]
+feedback = [
+    ['X', 'X', 'X', 'X', 'X'],
+    ['X', 'X', 'X', 'X', 'X'],
+    ['X', 'X', 'X', 'X', 'X'],
+    ['X', 'X', 'X', 'X', 'X'],
+    ['X', 'X', 'X', 'X', 'X'],
+    ['X', 'X', 'X', 'X', 'X']
+]
 
 currentRow = 0
 currentColumn = 0
 
 endGame = False
 wordsCounter = 0
+
 
 # classes + functions
 class Square:
@@ -120,7 +120,8 @@ class Square:
         pygame.draw.rect(screen, color, (self.gridSquareWidth, self.gridSquareHeight, gridSquareSize, gridSquareSize))
 
         if feedback[self.row][self.column] == 'X':
-            pygame.draw.rect(screen, self.squareColor, (self.fillSquareWidth, self.fillSquareHeight, self.fillSquareSize, self.fillSquareSize))
+            pygame.draw.rect(screen, self.squareColor,
+                             (self.fillSquareWidth, self.fillSquareHeight, self.fillSquareSize, self.fillSquareSize))
 
         if words[self.row][self.column] != '0':
             textChar = charFont.render(words[self.row][self.column], True, "White")
@@ -129,6 +130,7 @@ class Square:
             textHeight = self.fillSquareHeight + self.fillSquareSize // 2 - textChar.get_height() // 2
 
             screen.blit(textChar, (textWidth, textHeight))
+
 
 class Grid:
     def draw(self):
@@ -215,10 +217,10 @@ def checkInput(eventToHandle):
             if currentColumn == 5:
                 checkWord()
             else:
-                print("Word is not valid")      # TODO : invalid word
+                print("Word is not valid")  # TODO : invalid word
 
 
-def checkDataBase(word):        # TODO : binary search / use a dict
+def checkDataBase(word):  # TODO : binary search / use a dict
     global database
 
     for w in database:
@@ -228,6 +230,8 @@ def checkDataBase(word):        # TODO : binary search / use a dict
 
 
 listenerMsg = ''
+
+
 def receiveBestWord():
     global listenerMsg
 
@@ -271,7 +275,7 @@ if __name__ == '__main__':
 
     # Timer
     getTicksLastFrame = 0
-    checkForInputTimer = 3.0    # TODO : Find a good value for timer
+    checkForInputTimer = 3.0  # TODO : Find a good value for timer
     timer = 0
 
     while True:
@@ -340,4 +344,3 @@ if __name__ == '__main__':
 # TODO : Animation for each character
 # TODO : Show all characters
 # TODO : words[][] and feedback[][] -> Configure based on a variable (tableRows = 6)
-
