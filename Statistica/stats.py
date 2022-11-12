@@ -32,12 +32,12 @@ if __name__ == '__main__':
     file.close()
     file = open(os.path.join(os.path.dirname(__file__), "metoda1Cuvinte.txt"), 'w')
     suma = 0
-    outputInFile = ""
     for i in range(len(database)):
         hiddenWord = database[i]
         endGame = False
         words = database.copy()
         lant_incercari = []
+        currentOutputInFile = ""
         while True:
             bestWord = sol.getBestWord(words)
             lant_incercari.append(bestWord)
@@ -48,17 +48,15 @@ if __name__ == '__main__':
             # Next Word
             if endGame:
                 suma += len(lant_incercari)
-                outputInFile += "CUVANT: " + hiddenWord + "\n" + "NUMAR INCERCARI: " + str(len(lant_incercari)) + "\n"
-                # file.write("CUVANT: " + hiddenWord)
-                # file.write("\n")
-                # file.write("NUMAR INCERCARI: " + str(len(lant_incercari)))
-                # file.write("\n")
+                currentOutputInFile += "CUVANT: " + hiddenWord + "\n" + "NUMAR INCERCARI: " + str(len(lant_incercari)) + "\n"
+                #file.write("CUVANT: " + hiddenWord + "\n" + "NUMAR INCERCARI: " + str(len(lant_incercari)) + "\n")
 
                 for i in range(len(lant_incercari)):
                     #file.write(lant_incercari[i] + " ")
-                    outputInFile += str(lant_incercari[i]) + " "
+                    currentOutputInFile += str(lant_incercari[i]) + " "
                 #file.write("\n\n")
-                outputInFile += "\n\n"
+                currentOutputInFile += "\n\n"
+                file.write(currentOutputInFile)
                 break
                 #print(hiddenWord)
 
