@@ -30,7 +30,7 @@ if __name__ == '__main__':
         database.append(fileline)
         fileline = file.readline()
     file.close()
-    file = open(os.path.join(os.path.dirname(__file__), "metoda1Cuvinte.txt"), 'w')
+    file = open(os.path.join(os.path.dirname(__file__), "metoda2Cuvinte.txt"), 'w')
     suma = 0
     for i in range(len(database)):
         hiddenWord = database[i]
@@ -61,7 +61,7 @@ if __name__ == '__main__':
                 #print(hiddenWord)
 
     file.close()
-    file = open(os.path.join(os.path.dirname(__file__), "medie1.txt"), 'w')
+    file = open(os.path.join(os.path.dirname(__file__), "medie2.txt"), 'w')
     medie = suma / len(database)
     file.write("Media este: " + str(medie))
     file.close()
