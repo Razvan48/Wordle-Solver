@@ -46,14 +46,14 @@ def getBestWord(words):
     ###Start metoda1
 
     # bestWord = words[0]
-    # bestEntropy = math.inf
+    # bestInformation = 0
     #
     # for word in words:
-    #     currentEntropy = 0
+    #     currentInformation = 0
     #     for letterIndex in range(LETTERS_IN_WORD):
-    #         currentEntropy += frequency[ord(word[letterIndex]) - ord('A')][letterIndex] * math.log2(1 / probability[ord(word[letterIndex]) - ord('A')][letterIndex])
-    #     if currentEntropy < bestEntropy:
-    #         bestEntropy = currentEntropy
+    #         currentInformation += frequency[ord(word[letterIndex]) - ord('A')][letterIndex]
+    #     if currentInformation > bestInformation:
+    #         bestInformation = currentInformation
     #         bestWord = word
 
     ###End metoda1
@@ -61,14 +61,14 @@ def getBestWord(words):
     ###Start metoda2
 
     bestWord = words[0]
-    bestInformation = 0
+    bestEntropy = 0
 
     for word in words:
-        currentInformation = 0
+        currentEntropy = 0
         for letterIndex in range(LETTERS_IN_WORD):
-            currentInformation += frequency[ord(word[letterIndex]) - ord('A')][letterIndex]
-        if currentInformation > bestInformation:
-            bestInformation = currentInformation
+            currentEntropy += probability[ord(word[letterIndex]) - ord('A')][letterIndex] * math.log2(1 / probability[ord(word[letterIndex]) - ord('A')][letterIndex])
+        if currentEntropy > bestEntropy:
+            bestEntropy = currentEntropy
             bestWord = word
 
     ###End metoda2

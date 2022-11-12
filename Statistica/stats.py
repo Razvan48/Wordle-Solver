@@ -32,6 +32,7 @@ if __name__ == '__main__':
     file.close()
     file = open(os.path.join(os.path.dirname(__file__), "metoda1Cuvinte.txt"), 'w')
     suma = 0
+    outputInFile = ""
     for i in range(len(database)):
         hiddenWord = database[i]
         endGame = False
@@ -47,14 +48,17 @@ if __name__ == '__main__':
             # Next Word
             if endGame:
                 suma += len(lant_incercari)
-                file.write("CUVANT: " + hiddenWord)
-                file.write("\n")
-                file.write("NUMAR INCERCARI: " + str(len(lant_incercari)))
-                file.write("\n")
+                outputInFile += "CUVANT: " + hiddenWord + "\n" + "NUMAR INCERCARI: " + str(len(lant_incercari)) + "\n"
+                # file.write("CUVANT: " + hiddenWord)
+                # file.write("\n")
+                # file.write("NUMAR INCERCARI: " + str(len(lant_incercari)))
+                # file.write("\n")
 
                 for i in range(len(lant_incercari)):
-                    file.write(lant_incercari[i] + " ")
-                file.write("\n\n")
+                    #file.write(lant_incercari[i] + " ")
+                    outputInFile += str(lant_incercari[i]) + " "
+                #file.write("\n\n")
+                outputInFile += "\n\n"
                 break
                 #print(hiddenWord)
 

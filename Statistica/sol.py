@@ -74,13 +74,13 @@ class solution2:
                 probability[rowIndex][columnIndex] = frequency[rowIndex][columnIndex] / len(words)
 
         bestWord = words[0]
-        bestEntropy = math.inf
+        bestEntropy = 0
         
         for word in words:
             currentEntropy = 0
             for letterIndex in range(LETTERS_IN_WORD):
-                currentEntropy += frequency[ord(word[letterIndex]) - ord('A')][letterIndex] * math.log2(1 / probability[ord(word[letterIndex]) - ord('A')][letterIndex])
-            if currentEntropy < bestEntropy:
+                currentEntropy += probability[ord(word[letterIndex]) - ord('A')][letterIndex] * math.log2(1 / probability[ord(word[letterIndex]) - ord('A')][letterIndex])
+            if currentEntropy > bestEntropy:
                 bestEntropy = currentEntropy
                 bestWord = word
 
