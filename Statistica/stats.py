@@ -5,15 +5,17 @@ from sol import solution1
 from sol import solution2
 
 sol = solution1()       # TODO : solution1 / solution2
-
-def getFeedback(word):
-    # N = negru
-    # V = verde
-    # G = galben
-    # X = neutru
-    # pt word genereaza feedback -> 
-    return "VVVVV"      # TODO 
-
+def getFeedback(word, hiddenWord):
+    nr_letters = 5
+    feedback = []
+    for i in range(nr_letters):
+        if hiddenWord[i] == word[i]:
+            feedback.append('V')
+        elif word[i] in hiddenWord:
+            feedback.append('G')
+        else:
+            feedback.append('N')
+    return feedback
 
 if __name__ == '__main__':
 
@@ -26,32 +28,30 @@ if __name__ == '__main__':
         database.append(fileline)
         fileline = file.readline()
     file.close()
-
     for i in range(len(database)):
         hiddenWord = database[i]
         endGame = False
-
+        number_of_tries = 0
         # Lista cuvinte posibile (o modificam in functie de feedback)
         words = database
-
-        while True:
-            # genereaza urmatorul cuvant folosind functia din solver -> getBestWorld
+        #file = open(os.path.join(os.path.dirname(__file__), "medie1.txt"), 'a')
+        #file.write("x")
+        while endGame == False:
             bestWord = sol.getBestWord(words)
-
-            # verifica cuvantul si trimite feedback
-            feedback = getFeedback(bestWord)
-
-            # actualizeaza lista
+            number_of_tries += 1
+            feedback = getFeedback(bestWord, hiddenWord)
             sol.deleteUnwantedWords(words, feedback, bestWord)
-
+            if bestWord == hiddenWord:
+                endGame = True
             # Next Word
             if endGame:
-                # Scrie in medie.txt rezultatul:
-                # "CUVANT" - "NR INCERCARI"
+                #file = open(os.path.join(os.path.dirname(__file__), "medie1.txt"), 'w')
+                #file.write("NR INCERCARI: " + number_of_tries)
+                #file.write("\n")
+                #file.close()
+                print(hiddenWord)
 
-                break
 
-    
     # Scrie in medie.txt media finala
 
 # TODO : statistica pt ambele solutii in 2 fisiere diferite
