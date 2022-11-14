@@ -13,6 +13,7 @@ playerInput = True
 if fileline[0] == "1":
     playerInput = False
 
+
 file.close()
 
 # Solver Input
