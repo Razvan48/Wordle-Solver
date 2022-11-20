@@ -149,25 +149,6 @@ class Grid:
                 square.draw()
 
 
-def wordFeedback():
-    global hiddenWord
-    global endGame
-
-    for i in range(5):
-        if hiddenWord[i] == words[currentRow][i]:
-            feedback[currentRow][i] = 'V'
-        else:
-            for j in range(5):
-                if hiddenWord[j] == words[currentRow][i]:
-                    feedback[currentRow][i] = 'G'
-                    break
-            else:
-                feedback[currentRow][i] = 'N'
-
-    if hiddenWord == "".join(words[currentRow]):
-        endGame = True
-
-
 def checkWord():
     global currentRow
     global currentColumn
@@ -179,7 +160,8 @@ def checkWord():
         currentWord += words[currentRow][i]
 
     if checkDataBase(currentWord):
-        wordFeedback()
+        if (not playerInput):
+            wordFeedbackSolver()
 
         wordsCounter += 1
         currentRow += 1
@@ -200,6 +182,39 @@ def checkWord():
             words[5][c] = '0'
             feedback[5][c] = 'X'
 
+def wordFeedbackSolver():
+    global endGame
+    global hiddenWord
+    for i in range(5):
+        if hiddenWord[i] == words[currentRow][i]:
+            feedback[currentRow][i] = 'V'
+        else:
+            for j in range(5):
+                if hiddenWord[j] == words[currentRow][i]:
+                    feedback[currentRow][i] = 'G'
+                    break
+            else:
+                feedback[currentRow][i] = 'N'
+    if hiddenWord == "".join(words[currentRow]):
+        endGame = True
+
+def wordFeedbackWordle(index):
+    global endGame
+    global hiddenWord
+    if words[currentRow][index] == '0':
+        feedback[currentRow][index] = 'X'
+        return
+    if hiddenWord[index] == words[currentRow][index]:
+        feedback[currentRow][index] = 'V'
+    else:
+        for i in range(5):
+            if hiddenWord[i] == words[currentRow][index]:
+                feedback[currentRow][index] = 'G'
+                break
+        else:
+            feedback[currentRow][index] = 'N'
+    if hiddenWord == "".join(words[currentRow]):
+        endGame = True
 
 def checkInput(eventToHandle):
     global currentRow
@@ -210,10 +225,12 @@ def checkInput(eventToHandle):
         if pygame.K_a <= eventToHandle.key <= pygame.K_z:
             if currentColumn < 5:
                 words[currentRow][currentColumn] = pygame.key.name(eventToHandle.key).upper()
+                wordFeedbackWordle(currentColumn)
                 currentColumn += 1
         elif eventToHandle.key == pygame.K_BACKSPACE:
             currentColumn = max(currentColumn - 1, 0)
             words[currentRow][currentColumn] = '0'
+            wordFeedbackWordle(currentColumn)
         elif eventToHandle.key == pygame.K_RETURN or eventToHandle.key == pygame.K_KP_ENTER:
             if currentColumn == 5:
                 checkWord()

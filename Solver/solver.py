@@ -43,18 +43,18 @@ def getBestWord(words):
         for columnIndex in range(LETTERS_IN_WORD):
             probability[rowIndex][columnIndex] = frequency[rowIndex][columnIndex] / len(words)
 
-    ###Start metoda1
+    #Start metoda1
 
-    # bestWord = words[0]
-    # bestInformation = 0
-    #
-    # for word in words:
-    #     currentInformation = 0
-    #     for letterIndex in range(LETTERS_IN_WORD):
-    #         currentInformation += frequency[ord(word[letterIndex]) - ord('A')][letterIndex]
-    #     if currentInformation > bestInformation:
-    #         bestInformation = currentInformation
-    #         bestWord = word
+    bestWord = words[0]
+    bestInformation = 0
+
+    for word in words:
+         currentInformation = 0
+         for letterIndex in range(LETTERS_IN_WORD):
+             currentInformation += frequency[ord(word[letterIndex]) - ord('A')][letterIndex]
+         if currentInformation > bestInformation:
+             bestInformation = currentInformation
+             bestWord = word
 
     ###End metoda1
 
@@ -73,31 +73,7 @@ def getBestWord(words):
 
     ###End metoda2
 
-    ###Start metoda3
-
-    bestWords = []
-    bestEntropy = -1
-
-    for word in words:
-        currentEntropy = 0
-        for letterIndex in range(LETTERS_IN_WORD):
-            currentEntropy += probability[ord(word[letterIndex]) - ord('A')][letterIndex] * math.log2(1 / probability[ord(word[letterIndex]) - ord('A')][letterIndex])
-        if currentEntropy > bestEntropy:
-            bestEntropy = currentEntropy
-            bestWords.clear()
-            bestWords.append(word)
-        else:
-            if currentEntropy == bestEntropy:
-                bestWords.append(word)
-
-    if len(bestWords) == len(words):
-        return bestWords[0]
-    else:
-        getBestWord(bestWords)
-
-    ###End metoda3
-
-    return bestWords
+    return bestWord
 
 
 def readWords(address, words):
