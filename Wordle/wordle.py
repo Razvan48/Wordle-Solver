@@ -244,8 +244,14 @@ def checkDataBase(word):  # TODO : binary search / use a dict
 
 listenerMsg = ''
 
+def sendFeedback(clientMsg):
+    print("Send to solver : " + clientMsg)
+    connClient.send(clientMsg)
 
-
+    # TODO : close
+    # if clientMsg == "exit":
+    #     connClient.close()
+    #     break
 
 def receiveBestWord():
     global listenerMsg
@@ -260,17 +266,6 @@ def receiveBestWord():
         #     listener.close()
 
     return listenerMsg
-
-
-def sendFeedback(clientMsg):
-    print("Send to solver : " + clientMsg)
-    connClient.send(clientMsg)
-
-    # TODO : close
-    # if clientMsg == "exit":
-    #     connClient.close()
-    #     break
-
 
 if __name__ == '__main__':
 
@@ -290,7 +285,7 @@ if __name__ == '__main__':
 
     # Timer
     getTicksLastFrame = 0
-    checkForInputTimer = 3.0  # TODO : Find a good value for timer
+    checkForInputTimer = 0.7  # TODO : Find a good value for timer
     timer = 0
     indexSolver = 0
 
@@ -362,6 +357,5 @@ if __name__ == '__main__':
         clock.tick(60)
         screen.fill(backgroundColor)
 
-# TODO : Animation for each character
 # TODO : Show all characters
 # TODO : words[][] and feedback[][] -> Configure based on a variable (tableRows = 6)
