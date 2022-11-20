@@ -167,8 +167,7 @@ def checkWord():
         currentWord += words[currentRow][i]
 
     if checkDataBase(currentWord):
-        if (not playerInput):
-            wordFeedbackSolver()
+        wordFeedback()
 
         wordsCounter += 1
         currentRow += 1
@@ -192,7 +191,7 @@ def checkWord():
             words[5][c] = '0'
             feedback[5][c] = 'X'
 
-def wordFeedbackSolver():
+def wordFeedback():
     global endGame
     global hiddenWord
     for i in range(5):
@@ -218,39 +217,20 @@ def checkInput(eventToHandle):
         if pygame.K_a <= eventToHandle.key <= pygame.K_z:
             if currentColumn < 5:
                 words[currentRow][currentColumn] = pygame.key.name(eventToHandle.key).upper()
-                wordFeedbackWordle(currentColumn)
                 currentColumn += 1
         elif eventToHandle.key == pygame.K_BACKSPACE:
             currentColumn = max(currentColumn - 1, 0)
             words[currentRow][currentColumn] = '0'
-            wordFeedbackWordle(currentColumn)
             if wrongWord == True:
                 wrongWord = False
-                for i in range(4):
-                    wordFeedbackWordle(i)
+                for i in range(5):
+                    feedback[currentRow][i] = 'X'
         elif eventToHandle.key == pygame.K_RETURN or eventToHandle.key == pygame.K_KP_ENTER:
             if currentColumn == 5:
                 checkWord()
             else:
-                print("Word is not valid") 
+                print("Word is not valid")
 
-def wordFeedbackWordle(index):
-    global endGame
-    global hiddenWord
-    if words[currentRow][index] == '0':
-        feedback[currentRow][index] = 'X'
-        return
-    if hiddenWord[index] == words[currentRow][index]:
-        feedback[currentRow][index] = 'V'
-    else:
-        for i in range(5):
-            if hiddenWord[i] == words[currentRow][index]:
-                feedback[currentRow][index] = 'G'
-                break
-        else:
-            feedback[currentRow][index] = 'N'
-    if hiddenWord == "".join(words[currentRow]):
-        endGame = True
 
 
 def checkDataBase(word):  # TODO : binary search / use a dict
