@@ -292,6 +292,7 @@ if __name__ == '__main__':
     getTicksLastFrame = 0
     checkForInputTimer = 3.0  # TODO : Find a good value for timer
     timer = 0
+    indexSolver = 0
 
     while True:
         # deltaTime in seconds
@@ -319,18 +320,23 @@ if __name__ == '__main__':
 
         # Solver Input
         if (not endGame) and (not playerInput) and canReadWrite:
-            # Listener first
-            bestWord = receiveBestWord()
+            if indexSolver == 0:
+                #Listener first
+                bestWord = receiveBestWord()
 
-            for i in range(5):
-                words[currentRow][i] = bestWord[i]
-            checkWord()
+            words[currentRow][indexSolver] = bestWord[indexSolver]
+            if indexSolver == 4:
+                checkWord()
+                indexSolver = 0
 
-            # Client second
-            fb = ""
-            for i in range(5):
-                fb += feedback[currentRow - 1][i]
-            sendFeedback(fb)
+                #Client second
+
+                fb = ""
+                for i in range(5):
+                    fb += feedback[currentRow - 1][i]
+                sendFeedback(fb)
+            else:
+                indexSolver += 1
 
         # draw interface
         textWidth = SCR_WIDTH // 2 - textWordle.get_width() // 2
