@@ -74,6 +74,8 @@ words = [
 # V = verde
 # G = galben
 # X = neutru
+# R = rosu (cuvantul nu se afla in baza de date)
+
 feedback = [
     ['X', 'X', 'X', 'X', 'X'],
     ['X', 'X', 'X', 'X', 'X'],
@@ -104,9 +106,11 @@ class Square:
 
         self.gridColor = (129, 131, 132)
         self.squareColor = (18, 18, 19)
+        self.redColor = (155, 21, 14)
         self.blackColor = (58, 58, 60)
         self.greenColor = (83, 141, 78)
         self.yellowColor = (183, 161, 72)
+
 
     def draw(self):
 
@@ -117,6 +121,8 @@ class Square:
             color = self.greenColor
         elif feedback[self.row][self.column] == 'G':
             color = self.yellowColor
+        elif feedback[self.row][self.column] == 'R':
+            color = self.redColor
 
         pygame.draw.rect(screen, color, (self.gridSquareWidth, self.gridSquareHeight, gridSquareSize, gridSquareSize))
 
@@ -154,6 +160,7 @@ def checkWord():
     global currentColumn
     global endGame
     global wordsCounter
+    global wrongWord
 
     currentWord = ""
     for i in range(5):
@@ -168,6 +175,9 @@ def checkWord():
         currentColumn = 0
     else:
         print("Word isn't in database")
+        wrongWord = True
+        for i in range(5):
+            feedback[currentRow][i] = 'R'
 
     if currentRow == 6:
         # Move words[][] + feedback[][]
@@ -216,27 +226,6 @@ def wordFeedbackWordle(index):
     if hiddenWord == "".join(words[currentRow]):
         endGame = True
 
-def checkInput(eventToHandle):
-    global currentRow
-    global currentColumn
-    global endGame
-
-    if eventToHandle.type == pygame.KEYDOWN:
-        if pygame.K_a <= eventToHandle.key <= pygame.K_z:
-            if currentColumn < 5:
-                words[currentRow][currentColumn] = pygame.key.name(eventToHandle.key).upper()
-                wordFeedbackWordle(currentColumn)
-                currentColumn += 1
-        elif eventToHandle.key == pygame.K_BACKSPACE:
-            currentColumn = max(currentColumn - 1, 0)
-            words[currentRow][currentColumn] = '0'
-            wordFeedbackWordle(currentColumn)
-        elif eventToHandle.key == pygame.K_RETURN or eventToHandle.key == pygame.K_KP_ENTER:
-            if currentColumn == 5:
-                checkWord()
-            else:
-                print("Word is not valid")  # TODO : invalid word
-
 
 def checkDataBase(word):  # TODO : binary search / use a dict
     global database
@@ -248,6 +237,31 @@ def checkDataBase(word):  # TODO : binary search / use a dict
 
 
 listenerMsg = ''
+
+def checkInput(eventToHandle):
+    global currentRow
+    global currentColumn
+    global endGame
+    global wrongWord
+    if eventToHandle.type == pygame.KEYDOWN:
+        if pygame.K_a <= eventToHandle.key <= pygame.K_z:
+            if currentColumn < 5:
+                words[currentRow][currentColumn] = pygame.key.name(eventToHandle.key).upper()
+                wordFeedbackWordle(currentColumn)
+                currentColumn += 1
+        elif eventToHandle.key == pygame.K_BACKSPACE:
+            currentColumn = max(currentColumn - 1, 0)
+            words[currentRow][currentColumn] = '0'
+            wordFeedbackWordle(currentColumn)
+            if wrongWord == True:
+                wrongWord = False
+                for i in range(4):
+                    wordFeedbackWordle(i)
+        elif eventToHandle.key == pygame.K_RETURN or eventToHandle.key == pygame.K_KP_ENTER:
+            if currentColumn == 5:
+                checkWord()
+            else:
+                print("Word is not valid")  # TODO : invalid word
 
 
 def receiveBestWord():
