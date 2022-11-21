@@ -88,9 +88,10 @@ feedback = [
 currentRow = 0
 currentColumn = 0
 
+wrongWord = False
 endGame = False
 wordsCounter = 0
-
+indexSolver = 0
 
 # classes + functions
 class Square:
@@ -253,6 +254,25 @@ def sendFeedback(clientMsg):
     #     connClient.close()
     #     break
 
+def newWord():
+    global endGame
+    global hiddenWord
+    global currentColumn
+    global currentRow
+    global indexSolver
+    global wordsCounter
+
+    endGame = False
+    hiddenWord = random.choice(database)
+    for row in range(6):
+        for column in range(5):
+            feedback[row][column] = 'X'
+            words[row][column] = '0'
+    currentColumn = currentRow = 0
+    indexSolver = 0
+    wordsCounter = 0
+    print("Hidden word : ", hiddenWord)
+
 def receiveBestWord():
     global listenerMsg
 
@@ -266,6 +286,7 @@ def receiveBestWord():
         #     listener.close()
 
     return listenerMsg
+
 
 if __name__ == '__main__':
 
@@ -287,7 +308,6 @@ if __name__ == '__main__':
     getTicksLastFrame = 0
     checkForInputTimer = 0.7  # TODO : Find a good value for timer
     timer = 0
-    indexSolver = 0
 
     while True:
         # deltaTime in seconds
@@ -313,6 +333,9 @@ if __name__ == '__main__':
             if playerInput and (not endGame):
                 checkInput(event)
 
+            if endGame and event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    newWord()
         # Solver Input
         if (not endGame) and (not playerInput) and canReadWrite:
             if indexSolver == 0:
@@ -351,7 +374,6 @@ if __name__ == '__main__':
         textCounter = titleFont.render("Counter : " + str(wordsCounter), True, "White")
         textWidth = SCR_WIDTH // 2 - textCounter.get_width() // 2
         screen.blit(textCounter, (textWidth, 660))
-
         # refresh
         pygame.display.update()
         clock.tick(60)
