@@ -2,7 +2,7 @@
 
 import math
 import os
-
+import pygame
 # Solver Client + Listener
 from multiprocessing.connection import Client
 from multiprocessing.connection import Listener
@@ -127,6 +127,7 @@ def sendBestWord(word):
     #     break
 
 
+
 listenerMsg = ''
 def receiveFeedback():
     global listenerMsg
@@ -142,14 +143,12 @@ def receiveFeedback():
 
     return listenerMsg
 
-
 if __name__ == '__main__':
 
     words = []
     readWords(os.path.join(os.path.dirname(__file__), '../database.txt'), words)
 
     feedback = ""
-
     file = open(os.path.join(os.path.dirname(__file__), '../gameMode.txt'), 'w')
     file.write('0')
     file.close()
@@ -158,13 +157,14 @@ if __name__ == '__main__':
     while True:
 
         if feedback == "VVVVV":
-            wordToSend = "exit"
+                wordToSend = "exit"
         else:
             wordToSend = getBestWord(words)
 
         # Daca am gasit cuvantul corect -> termina programul
         if wordToSend == "exit":
-            break
+                    break
+
 
         # Altfel continua sa ghicesti
         sendBestWord(wordToSend)

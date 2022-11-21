@@ -254,6 +254,20 @@ def sendFeedback(clientMsg):
     #     connClient.close()
     #     break
 
+def receiveBestWord():
+    global listenerMsg
+
+    if listenerMsg != "exit":
+        listenerMsg = connListener.recv()
+        print("From solver : ", listenerMsg)
+
+        # TODO : close
+        # if listenerMsg == "exit":
+        #     connListener.close()
+        #     listener.close()
+
+    return listenerMsg
+
 def newWord():
     global endGame
     global hiddenWord
@@ -273,19 +287,7 @@ def newWord():
     wordsCounter = 0
     print("Hidden word : ", hiddenWord)
 
-def receiveBestWord():
-    global listenerMsg
 
-    if listenerMsg != "exit":
-        listenerMsg = connListener.recv()
-        print("From solver : ", listenerMsg)
-
-        # TODO : close
-        # if listenerMsg == "exit":
-        #     connListener.close()
-        #     listener.close()
-
-    return listenerMsg
 
 
 if __name__ == '__main__':
@@ -336,6 +338,7 @@ if __name__ == '__main__':
             if endGame and event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
                     newWord()
+
         # Solver Input
         if (not endGame) and (not playerInput) and canReadWrite:
             if indexSolver == 0:
@@ -355,7 +358,6 @@ if __name__ == '__main__':
                 sendFeedback(fb)
             else:
                 indexSolver += 1
-
         # draw interface
         textWidth = SCR_WIDTH // 2 - textWordle.get_width() // 2
         screen.blit(textWordle, (textWidth, 50))
@@ -364,11 +366,15 @@ if __name__ == '__main__':
         grid = Grid()
         grid.draw()
 
+
         # draw win/loss
         if endGame:
             textResult = titleFont.render("WINNER", True, "Green")
             textWidth = SCR_WIDTH // 2 - textResult.get_width() // 2
             screen.blit(textResult, (textWidth, 100))
+
+
+            #elif not playerInput:
 
         # draw words counter
         textCounter = titleFont.render("Counter : " + str(wordsCounter), True, "White")
