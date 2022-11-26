@@ -386,8 +386,10 @@ if __name__ == '__main__':
             else:
                 indexSolver += 1
 
+        # Animation settings
+
         if startAnimation == False and wrongWord and enableAnimation:
-            start_t = pygame.time.get_ticks()
+            start_t = pygame.time.get_ticks() #time when the animation starts
             startAnimation = True
             deltaAnimation = 0
 

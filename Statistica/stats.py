@@ -2,7 +2,6 @@ import os
 
 #Importa metoda de rezolvare din sol.py
 from sol import solution
-
 sol = solution()
 
 def getFeedback(word, hiddenWord):
