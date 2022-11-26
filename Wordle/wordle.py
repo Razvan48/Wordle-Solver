@@ -228,23 +228,31 @@ def checkWord():
     global endGame
     global wordsCounter
     global wrongWord
+    global playerInput
 
-    currentWord = ""
-    for i in range(5):
-        currentWord += words[currentRow][i]
+    if playerInput:
+        currentWord = ""
+        for i in range(5):
+            currentWord += words[currentRow][i]
 
-    if checkDataBase(currentWord):
+        if checkDataBase(currentWord):
+            wordFeedback()
+
+            wordsCounter += 1
+            currentRow += 1
+            currentColumn = 0
+
+        else:
+            print("Word isn't in database")
+            wrongWord = True
+            for i in range(5):
+                feedback[currentRow][i] = 'R'
+    else:
         wordFeedback()
-
         wordsCounter += 1
         currentRow += 1
         currentColumn = 0
 
-    else:
-        print("Word isn't in database")
-        wrongWord = True
-        for i in range(5):
-            feedback[currentRow][i] = 'R'
     if currentRow == 6:
     # Move words[][] + feedback[][]
         for r in range(5):
