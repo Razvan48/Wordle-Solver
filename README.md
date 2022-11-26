@@ -1,5 +1,5 @@
 # Wordle Solver 
-Primul proiect de la [Arhitectura Sistemelor de Calcul](https://cs.unibuc.ro/~crusu/asc/index.html)
+Primul proiect din cadrul cursului [Arhitectura Sistemelor de Calcul](https://cs.unibuc.ro/~crusu/asc/index.html)
 
 <p>
   <img align = "left" width="400" height="533" src="https://github.com/sebimih13/Wordle-Solver/blob/main/gifs/player%20input.gif">
