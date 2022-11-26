@@ -141,9 +141,8 @@ class Square:
             textWidth = self.fillSquareWidth + self.fillSquareSize // 2 - textChar.get_width() // 2
             textHeight = self.fillSquareHeight + self.fillSquareSize // 2 - textChar.get_height() // 2
 
-            if self.row == currentRow:
-                textWidth -= animationFunction(deltaAnimation)
-                textHeight -= animationFunction(deltaAnimation)
+            #if self.row == currentRow:
+             #   textWidth -= animationFunction(deltaAnimation)
 
             screen.blit(textChar, (textWidth, textHeight))
 
@@ -159,7 +158,8 @@ class Grid:
                 squareWidth = midSquareWidth + i * squareSpace + i * gridSquareSize
                 squareHeight = midSquareHeight
                 column = i + 2
-
+                if row == currentRow:
+                    squareWidth -= animationFunction(deltaAnimation)
                 square = Square(squareWidth, squareHeight, row, column)
                 square.draw()
 
