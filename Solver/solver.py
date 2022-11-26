@@ -31,19 +31,19 @@ ALPHABET_SIZE = 26
 LETTERS_IN_WORD = 5
 FEEDBACKS_PER_LETTER = 3
 
-# def getBestWord(words):
-#
-#     frequency = [[0 for y in range(LETTERS_IN_WORD)] for x in range(ALPHABET_SIZE)]
-#     probability = [[0 for y in range(LETTERS_IN_WORD)] for x in range(ALPHABET_SIZE)]
-#
-#     for word in words:
-#         for letterIndex in range(LETTERS_IN_WORD):
-#             frequency[ord(word[letterIndex]) - ord('A')][letterIndex] += 1
-#
-#     for rowIndex in range(ALPHABET_SIZE):
-#         for columnIndex in range(LETTERS_IN_WORD):
-#             probability[rowIndex][columnIndex] = frequency[rowIndex][columnIndex] / len(words)
-#
+def getBestWord(words):
+
+     frequency = [[0 for y in range(LETTERS_IN_WORD)] for x in range(ALPHABET_SIZE)]
+     probability = [[0 for y in range(LETTERS_IN_WORD)] for x in range(ALPHABET_SIZE)]
+
+     for word in words:
+         for letterIndex in range(LETTERS_IN_WORD):
+             frequency[ord(word[letterIndex]) - ord('A')][letterIndex] += 1
+
+     for rowIndex in range(ALPHABET_SIZE):
+         for columnIndex in range(LETTERS_IN_WORD):
+             probability[rowIndex][columnIndex] = frequency[rowIndex][columnIndex] / len(words)
+
 #     #Start metoda1
 #
 #     #bestWord = words[0]
@@ -61,66 +61,20 @@ FEEDBACKS_PER_LETTER = 3
 #
 #     ###Start metoda2
 #
-#     bestWord = words[0]
-#     bestEntropy = 0
-#
-#     for word in words:
-#         currentEntropy = 0
-#         for letterIndex in range(LETTERS_IN_WORD):
-#             currentEntropy += probability[ord(word[letterIndex]) - ord('A')][letterIndex] * math.log2(1 / probability[ord(word[letterIndex]) - ord('A')][letterIndex])
-#         if currentEntropy > bestEntropy:
-#             bestEntropy = currentEntropy
-#             bestWord = word
-#
-#     ###End metoda2
-#
-#     return bestWord
+     bestWord = words[0]
+     bestEntropy = 0
 
-def giveFeedback(targetWord, givenWord):
-    fb = ""
-    for letterIndex in range(LETTERS_IN_WORD):
-        if givenWord[letterIndex] == targetWord[letterIndex]:
-            fb = fb + "V"
-        elif givenWord[letterIndex] in targetWord:
-            fb = fb + "G"
-        else:
-            fb = fb + "N"
-    return fb
+     for word in words:
+         currentEntropy = 0
+         for letterIndex in range(LETTERS_IN_WORD):
+             currentEntropy += probability[ord(word[letterIndex]) - ord('A')][letterIndex] * math.log2(1 / probability[ord(word[letterIndex]) - ord('A')][letterIndex])
+         if currentEntropy > bestEntropy:
+             bestEntropy = currentEntropy
+             bestWord = word
 
+     ###End metoda2
 
-def giveHash(string):
-    hash = 0
-    for letter in string:
-        hash *= 3
-        if letter == "N":
-            hash += 0
-        elif letter == "G":
-            hash += 1
-        else:
-            hash += 2
-    return hash
-
-
-def getBestWord(words):
-    frequency = [0 for x in range(243)]
-
-    bestWord = ""
-    bestEntropy = -1
-
-    for word1 in words:
-        for index in range(len(frequency)):
-            frequency[index] = 0
-        for index2 in range(min(243, len(words))):
-            fb = giveFeedback(word1, words[index2])
-            frequency[giveHash(fb)] += 1
-        currentEntropy = 0
-        for x in range(len(frequency)):
-            if frequency[x] != 0:
-                currentEntropy += frequency[x] / len(words) * math.log2(len(words) / frequency[x])
-        if currentEntropy > bestEntropy:
-            bestEntropy = currentEntropy
-            bestWord = word1
-    return bestWord
+     return bestWord
 
 
 def readWords(address, words):

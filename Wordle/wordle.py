@@ -228,6 +228,7 @@ def checkWord():
     global endGame
     global wordsCounter
     global wrongWord
+
     currentWord = ""
     for i in range(5):
         currentWord += words[currentRow][i]
