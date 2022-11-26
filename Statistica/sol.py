@@ -83,22 +83,6 @@ class solution:
                 bestWord = word
 
         return bestWord
-
-
-    def ok(self, currentWord, feedback, word):
-        index = 0
-        while index < len(feedback):
-            if feedback[index] == 'V' and currentWord[index] != word[index]:
-                return False
-            elif feedback[index] == 'G' and ((not word[index] in (currentWord[:index] + currentWord[index + 1:])) or currentWord[index] == word[index]):
-                return False
-            elif feedback[index] == 'N' and (word[index] in currentWord):
-                return False
-            index += 1
-
-        return True
-
-
     def deleteUnwantedWords(self, words, feedback, word):
         if feedback == "":
             return
@@ -112,3 +96,15 @@ class solution:
                 index -= 1
             index += 1
 
+    def ok(self, currentWord, feedback, word):
+        index = 0
+        while index < len(feedback):
+            if feedback[index] == 'V' and currentWord[index] != word[index]:
+                return False
+            elif feedback[index] == 'G' and ((not word[index] in (currentWord[:index] + currentWord[index + 1:])) or currentWord[index] == word[index]):
+                return False
+            elif feedback[index] == 'N' and (word[index] in currentWord):
+                return False
+            index += 1
+
+        return True

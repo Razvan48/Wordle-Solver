@@ -167,8 +167,7 @@ class Grid:
 
 def animationFunction(time):
     global direction
-    #return 2 * direction * math.sin(time) * math.sin(time)
-    #return direction * time
+    
     if time != 0:
         return direction * 3 / math.sqrt(time)
     else:
