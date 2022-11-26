@@ -96,6 +96,7 @@ indexSolver = 0
 
 enableAnimation = False
 deltaAnimation = 0
+startAnimation = False
 direction = 1
 # classes + functions
 class Square:
@@ -168,7 +169,7 @@ def animationFunction(time):
     #return 2 * direction * math.sin(time) * math.sin(time)
     #return direction * time
     if time != 0:
-        return direction * 1/time
+        return direction * 1 / (2 * time)
     else:
         return 0
 def checkWord():
@@ -230,6 +231,7 @@ def checkInput(eventToHandle):
     global endGame
     global wrongWord
     global enableAnimation
+    global startAnimation
 
     if eventToHandle.type == pygame.KEYDOWN:
         if pygame.K_a <= eventToHandle.key <= pygame.K_z:
@@ -240,12 +242,15 @@ def checkInput(eventToHandle):
             currentColumn = max(currentColumn - 1, 0)
             words[currentRow][currentColumn] = '0'
             if wrongWord == True:
+
                 wrongWord = False
                 for i in range(5):
                     feedback[currentRow][i] = 'X'
         elif eventToHandle.key == pygame.K_RETURN or eventToHandle.key == pygame.K_KP_ENTER:
             if currentColumn == 5:
                 checkWord()
+                if startAnimation:
+                    startAnimation = False
                 enableAnimation = True
             else:
                 print("Word is not valid")
