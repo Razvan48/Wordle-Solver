@@ -29,7 +29,7 @@ print('connection accepted from', listener.last_accepted)
 
 ALPHABET_SIZE = 26
 LETTERS_IN_WORD = 5
-FEEDBACKS_PER_LETTER = 3
+
 
 def getBestWord(words):
 
@@ -44,7 +44,7 @@ def getBestWord(words):
          for columnIndex in range(LETTERS_IN_WORD):
              probability[rowIndex][columnIndex] = frequency[rowIndex][columnIndex] / len(words)
 
-#     #Start metoda1
+#     ###Start alta metoda
 #
 #     #bestWord = words[0]
 #     #bestInformation = 0
@@ -57,9 +57,7 @@ def getBestWord(words):
 #              #bestInformation = currentInformation
 #              #bestWord = word
 #
-#     ###End metoda1
-#
-#     ###Start metoda2
+#     ###End alta metoda
 #
      bestWord = words[0]
      bestEntropy = 0
@@ -71,8 +69,6 @@ def getBestWord(words):
          if currentEntropy > bestEntropy:
              bestEntropy = currentEntropy
              bestWord = word
-
-     ###End metoda2
 
      return bestWord
 
@@ -91,6 +87,7 @@ def readWords(address, words):
         words[index] = words[index][:-1]
         index += 1
 
+
 def ok(currentWord, feedback, word):
     index = 0
     while index < len(feedback):
@@ -103,6 +100,7 @@ def ok(currentWord, feedback, word):
         index += 1
 
     return True
+
 
 def deleteUnwantedWords(words, feedback, word):
     if feedback == "":
@@ -117,6 +115,7 @@ def deleteUnwantedWords(words, feedback, word):
             index -= 1
         index += 1
 
+
 def sendBestWord(word):
     word = word.upper()
     connClient.send(word)
@@ -126,7 +125,6 @@ def sendBestWord(word):
     # if word == "exit":
     #     connClient.close()
     #     break
-
 
 
 listenerMsg = ''
@@ -144,32 +142,31 @@ def receiveFeedback():
 
     return listenerMsg
 
-if __name__ == '__main__':
 
-    words = []
-    readWords(os.path.join(os.path.dirname(__file__), '../database.txt'), words)
+words = []
+readWords(os.path.join(os.path.dirname(__file__), '../database.txt'), words)
 
-    feedback = ""
-    file = open(os.path.join(os.path.dirname(__file__), '../gameMode.txt'), 'w')
-    file.write('0')
-    file.close()
+feedback = ""
+file = open(os.path.join(os.path.dirname(__file__), '../gameMode.txt'), 'w')
+file.write('0')
+file.close()
 
-    # Main loop
-    while True:
+# Main loop
+while True:
 
-        if feedback == "VVVVV":
-                wordToSend = "exit"
-        else:
-            wordToSend = getBestWord(words)
+    if feedback == "VVVVV":
+            wordToSend = "exit"
+    else:
+        wordToSend = getBestWord(words)
 
-        # Daca am gasit cuvantul corect -> termina programul
-        if wordToSend == "exit":
-                    break
+    # Daca am gasit cuvantul corect -> termina programul
+    if wordToSend == "exit":
+                break
 
 
-        # Altfel continua sa ghicesti
-        sendBestWord(wordToSend)
-        feedback = receiveFeedback()
+    # Altfel continua sa ghicesti
+    sendBestWord(wordToSend)
+    feedback = receiveFeedback()
 
-        deleteUnwantedWords(words, feedback, wordToSend)
+    deleteUnwantedWords(words, feedback, wordToSend)
 

@@ -7,7 +7,7 @@
     2.Mihalache Sebastian, 152
     3.Petre-Soldan Adela, 131
 
-Numarul mediu de incercari pentru ghicirea tuturor cuvintelor: 4.91
+Numarul mediu de incercari pentru ghicirea tuturor cuvintelor: 4.91871835166754
 
 ### Descirerea proiectului:
 
