@@ -138,8 +138,12 @@ class Square:
         if words[self.row][self.column] != '0':
             textChar = charFont.render(words[self.row][self.column], True, "White")
 
-            textWidth = self.fillSquareWidth + self.fillSquareSize // 2 - textChar.get_width() // 2 - animationFunction(deltaAnimation)
-            textHeight = self.fillSquareHeight + self.fillSquareSize // 2 - textChar.get_height() // 2 - animationFunction(deltaAnimation)
+            textWidth = self.fillSquareWidth + self.fillSquareSize // 2 - textChar.get_width() // 2
+            textHeight = self.fillSquareHeight + self.fillSquareSize // 2 - textChar.get_height() // 2
+
+            if self.row == currentRow:
+                textWidth -= animationFunction(deltaAnimation)
+                textHeight -= animationFunction(deltaAnimation)
 
             screen.blit(textChar, (textWidth, textHeight))
 
@@ -161,8 +165,8 @@ class Grid:
 
 def animationFunction(time):
     global direction
-    return 2 * direction * math.sin(time) * math.sin(time)
-
+    #return 2 * direction * math.sin(time) * math.sin(time)
+    return direction * time
 def checkWord():
     global currentRow
     global currentColumn
