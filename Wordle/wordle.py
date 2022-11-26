@@ -164,6 +164,32 @@ class Grid:
                 square = Square(squareWidth, squareHeight, row, column)
                 square.draw()
 
+
+def animationFunction(time):
+    global direction
+    #return 2 * direction * math.sin(time) * math.sin(time)
+    #return direction * time
+    if time != 0:
+        return direction * 3 / math.sqrt(time)
+    else:
+        return 0
+
+def wordFeedback():
+    global endGame
+    global hiddenWord
+    for i in range(5):
+        if hiddenWord[i] == words[currentRow][i]:
+            feedback[currentRow][i] = 'V'
+        else:
+            for j in range(5):
+                if hiddenWord[j] == words[currentRow][i]:
+                    feedback[currentRow][i] = 'G'
+                    break
+            else:
+                feedback[currentRow][i] = 'N'
+    if hiddenWord == "".join(words[currentRow]):
+        endGame = True
+
 def checkWord():
     global currentRow
     global currentColumn
@@ -200,33 +226,6 @@ def checkWord():
         for c in range(5):
             words[5][c] = '0'
             feedback[5][c] = 'X'
-
-
-def animationFunction(time):
-    global direction
-    #return 2 * direction * math.sin(time) * math.sin(time)
-    #return direction * time
-    if time != 0:
-        return direction * 3 / math.sqrt(time)
-    else:
-        return 0
-
-def wordFeedback():
-    global endGame
-    global hiddenWord
-    for i in range(5):
-        if hiddenWord[i] == words[currentRow][i]:
-            feedback[currentRow][i] = 'V'
-        else:
-            for j in range(5):
-                if hiddenWord[j] == words[currentRow][i]:
-                    feedback[currentRow][i] = 'G'
-                    break
-            else:
-                feedback[currentRow][i] = 'N'
-    if hiddenWord == "".join(words[currentRow]):
-        endGame = True
-
 
 def checkInput(eventToHandle):
     global currentRow
