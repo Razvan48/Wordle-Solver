@@ -163,7 +163,6 @@ while True:
     if wordToSend == "exit":
                 break
 
-
     # Altfel continua sa ghicesti
     sendBestWord(wordToSend)
     feedback = receiveFeedback()

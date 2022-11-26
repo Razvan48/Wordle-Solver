@@ -86,7 +86,6 @@ class solution:
     def deleteUnwantedWords(self, words, feedback, word):
         if feedback == "":
             return
-
         words.remove(word)
         
         index = 0
@@ -95,7 +94,6 @@ class solution:
                 words.remove(words[index])
                 index -= 1
             index += 1
-
     def ok(self, currentWord, feedback, word):
         index = 0
         while index < len(feedback):
