@@ -1,5 +1,5 @@
 # Wordle Solver 
-Primul proiect de la [Arhitectura Sistemelor de Calcul](https://cs.unibuc.ro/~crusu/asc/index.html)
+Primul proiect din cadrul cursului [Arhitectura Sistemelor de Calcul](https://cs.unibuc.ro/~crusu/asc/index.html)
 
 <p>
   <img align = "left" width="400" height="533" src="https://github.com/sebimih13/Wordle-Solver/blob/main/gifs/player%20input.gif">
@@ -43,7 +43,7 @@ python solver.py
 <br />
 
 
-## Descrierea proiectului:
+## Descrierea proiectului
 
 Proiectul contine 2 fisiere principale, "solver.py" si "wordle.py", care comunica prin IPC.
 Solver-ul incepe prin a genera cu ajutorul entropiei cel mai favorabil cuvant ("bestWord") si il trimite catre wordle.py prin functia
@@ -73,7 +73,7 @@ mai tina cont de interfata grafica (creata cu ajutorul functiilor bibliotecii "p
 <br />
 
 
-## Referinte:
+## Referinte
 - [pygame documentation](https://www.pygame.org/docs/)
 - [wordle](https://www.youtube.com/watch?v=v68zYyaEmEA&ab_channel=3Blue1Brown)
 
