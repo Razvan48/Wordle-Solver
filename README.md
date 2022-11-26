@@ -43,7 +43,7 @@ python solver.py
 <br />
 
 
-## Descrierea proiectului:
+## Descrierea proiectului
 
 Proiectul contine 2 fisiere principale, "solver.py" si "wordle.py", care comunica prin IPC.
 Solver-ul incepe prin a genera cu ajutorul entropiei cel mai favorabil cuvant ("bestWord") si il trimite catre wordle.py prin functia
@@ -73,7 +73,7 @@ Media este stocata in fisierul "medie.txt", iar lantul incercarilor pentru fieca
 <br />
 
 
-## Referinte:
+## Referinte
 - [pygame documentation](https://www.pygame.org/docs/)
 - [wordle](https://www.youtube.com/watch?v=v68zYyaEmEA&ab_channel=3Blue1Brown)
 
