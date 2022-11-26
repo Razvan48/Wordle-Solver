@@ -2,6 +2,7 @@
 
 import random
 import pygame
+import math
 from sys import exit
 import os
 
@@ -93,6 +94,9 @@ endGame = False
 wordsCounter = 0
 indexSolver = 0
 
+enableAnimation = False
+deltaAnimation = 0
+direction = 1
 # classes + functions
 class Square:
     def __init__(self, gridSquareWidth, gridSquareHeight, row, column):
@@ -134,8 +138,8 @@ class Square:
         if words[self.row][self.column] != '0':
             textChar = charFont.render(words[self.row][self.column], True, "White")
 
-            textWidth = self.fillSquareWidth + self.fillSquareSize // 2 - textChar.get_width() // 2
-            textHeight = self.fillSquareHeight + self.fillSquareSize // 2 - textChar.get_height() // 2
+            textWidth = self.fillSquareWidth + self.fillSquareSize // 2 - textChar.get_width() // 2 - animationFunction(deltaAnimation)
+            textHeight = self.fillSquareHeight + self.fillSquareSize // 2 - textChar.get_height() // 2 - animationFunction(deltaAnimation)
 
             screen.blit(textChar, (textWidth, textHeight))
 
@@ -155,6 +159,9 @@ class Grid:
                 square = Square(squareWidth, squareHeight, row, column)
                 square.draw()
 
+def animationFunction(time):
+    global direction
+    return 2 * direction * math.sin(time) * math.sin(time)
 
 def checkWord():
     global currentRow
@@ -214,6 +221,8 @@ def checkInput(eventToHandle):
     global currentColumn
     global endGame
     global wrongWord
+    global enableAnimation
+
     if eventToHandle.type == pygame.KEYDOWN:
         if pygame.K_a <= eventToHandle.key <= pygame.K_z:
             if currentColumn < 5:
@@ -229,6 +238,7 @@ def checkInput(eventToHandle):
         elif eventToHandle.key == pygame.K_RETURN or eventToHandle.key == pygame.K_KP_ENTER:
             if currentColumn == 5:
                 checkWord()
+                enableAnimation = True
             else:
                 print("Word is not valid")
 
@@ -285,7 +295,7 @@ def newWord():
     currentColumn = currentRow = 0
     indexSolver = 0
     wordsCounter = 0
-    print("Hidden word : ", hiddenWord)
+    print("New hidden word : ", hiddenWord)
 
 
 
@@ -310,6 +320,10 @@ if __name__ == '__main__':
     getTicksLastFrame = 0
     checkForInputTimer = 0.7  # TODO : Find a good value for timer
     timer = 0
+
+    # Animation settings
+    animationTime = 4.0
+    startAnimation = False
 
     while True:
         # deltaTime in seconds
@@ -341,7 +355,7 @@ if __name__ == '__main__':
 
         # Solver Input
         if (not endGame) and (not playerInput) and canReadWrite:
-            if indexSolver == 0:
+            if indexSolver == 0: #indexul caracterului din bestWord care trb afisat
                 #Listener first
                 bestWord = receiveBestWord()
 
@@ -358,14 +372,32 @@ if __name__ == '__main__':
                 sendFeedback(fb)
             else:
                 indexSolver += 1
+
+        if startAnimation == False and wrongWord and enableAnimation:
+            start_t = pygame.time.get_ticks()
+            startAnimation = True
+            deltaAnimation = 0
+
+        if startAnimation == True:
+            if wrongWord == False:
+                startAnimation = False
+                enableAnimation = False
+                deltaAnimation = 0
+            elif deltaAnimation > animationTime:
+                startAnimation = False
+                enableAnimation = False
+                deltaAnimation = 0
+            else:
+                deltaAnimation = (pygame.time.get_ticks() - start_t)/1000
+                direction *= -1
         # draw interface
+
         textWidth = SCR_WIDTH // 2 - textWordle.get_width() // 2
         screen.blit(textWordle, (textWidth, 50))
 
         # draw grid + characters
         grid = Grid()
         grid.draw()
-
 
         # draw win/loss
         if endGame:

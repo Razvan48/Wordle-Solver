@@ -5,8 +5,8 @@ from sol import solution1
 from sol import solution2
 from sol import solution3
 
-sol = solution1() # TODO : solution1 / solution2
-#sol = solution2()
+#sol = solution1() # TODO : solution1 / solution2
+sol = solution2()
 def getFeedback(word, hiddenWord):
     feedback = []
     for i in range(5):
@@ -53,12 +53,12 @@ if __name__ == '__main__':
                 tries_output += "\n"
                 break
                 #print(hiddenWord)
-    file = open(os.path.join(os.path.dirname(__file__), "metoda1Cuvinte.txt"), 'w')
-    #file = open(os.path.join(os.path.dirname(__file__), "metoda2Cuvinte.txt"), 'w')
+    #file = open(os.path.join(os.path.dirname(__file__), "metoda1Cuvinte.txt"), 'w')
+    file = open(os.path.join(os.path.dirname(__file__), "metoda2Cuvinte.txt"), 'w')
     file.write(tries_output)
     file.close()
-    file = open(os.path.join(os.path.dirname(__file__), "medie1.txt"), 'w')
-    #file = open(os.path.join(os.path.dirname(__file__), "medie2.txt"), 'w')
+    #file = open(os.path.join(os.path.dirname(__file__), "medie1.txt"), 'w')
+    file = open(os.path.join(os.path.dirname(__file__), "medie2.txt"), 'w')
     average = total_tries / len(database)
     file.write("Media este: " + str(average))
     file.close()

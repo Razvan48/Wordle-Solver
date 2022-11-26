@@ -79,7 +79,7 @@ class solution2:
         for word in words:
             currentEntropy = 0
             for letterIndex in range(LETTERS_IN_WORD):
-                currentEntropy += probability[ord(word[letterIndex]) - ord('A')][letterIndex] * math.log2(1 / probability[ord(word[letterIndex]) - ord('A')][letterIndex])
+                currentEntropy += frequency[ord(word[letterIndex]) - ord('A')][letterIndex] * math.log2(1 / probability[ord(word[letterIndex]) - ord('A')][letterIndex])
             if currentEntropy > bestEntropy:
                 bestEntropy = currentEntropy
                 bestWord = word
