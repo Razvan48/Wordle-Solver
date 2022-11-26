@@ -166,7 +166,11 @@ class Grid:
 def animationFunction(time):
     global direction
     #return 2 * direction * math.sin(time) * math.sin(time)
-    return direction * time
+    #return direction * time
+    if time != 0:
+        return direction * 1/time
+    else:
+        return 0
 def checkWord():
     global currentRow
     global currentColumn
