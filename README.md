@@ -9,7 +9,7 @@ Primul proiect din cadrul cursului [Arhitectura Sistemelor de Calcul](https://cs
 <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
 
 
-## Echipa:
+## Echipa
 
     1. Capatina Razvan Nicolae      - 152
     2. Mihalache Sebastian Stefan   - 152
