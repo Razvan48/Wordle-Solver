@@ -169,7 +169,7 @@ def animationFunction(time):
     #return 2 * direction * math.sin(time) * math.sin(time)
     #return direction * time
     if time != 0:
-        return direction * 1 / (2 * time)
+        return direction * 3 / math.sqrt(time)
     else:
         return 0
 def checkWord():
@@ -335,7 +335,7 @@ if __name__ == '__main__':
     timer = 0
 
     # Animation settings
-    animationTime = 4.0
+    animationTime = 2.0
     startAnimation = False
 
     while True:
