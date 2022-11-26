@@ -190,42 +190,7 @@ def wordFeedback():
     if hiddenWord == "".join(words[currentRow]):
         endGame = True
 
-def checkWord():
-    global currentRow
-    global currentColumn
-    global endGame
-    global wordsCounter
-    global wrongWord
 
-    currentWord = ""
-    for i in range(5):
-        currentWord += words[currentRow][i]
-
-    if checkDataBase(currentWord):
-        wordFeedback()
-
-        wordsCounter += 1
-        currentRow += 1
-        currentColumn = 0
-
-    else:
-        print("Word isn't in database")
-        wrongWord = True
-        for i in range(5):
-            feedback[currentRow][i] = 'R'
-
-    if currentRow == 6:
-     # Move words[][] + feedback[][]
-        for r in range(5):
-            words[r] = words[r + 1].copy()
-            feedback[r] = feedback[r + 1].copy()
-
-        currentRow = 5
-        currentColumn = 0
-
-        for c in range(5):
-            words[5][c] = '0'
-            feedback[5][c] = 'X'
 
 def checkInput(eventToHandle):
     global currentRow
@@ -256,6 +221,40 @@ def checkInput(eventToHandle):
                 enableAnimation = True
             else:
                 print("Word is not valid")
+
+def checkWord():
+    global currentRow
+    global currentColumn
+    global endGame
+    global wordsCounter
+    global wrongWord
+    currentWord = ""
+    for i in range(5):
+        currentWord += words[currentRow][i]
+
+    if checkDataBase(currentWord):
+        wordFeedback()
+
+        wordsCounter += 1
+        currentRow += 1
+        currentColumn = 0
+
+    else:
+        print("Word isn't in database")
+        wrongWord = True
+        for i in range(5):
+            feedback[currentRow][i] = 'R'
+    if currentRow == 6:
+    # Move words[][] + feedback[][]
+        for r in range(5):
+            words[r] = words[r + 1].copy()
+            feedback[r] = feedback[r + 1].copy()
+
+        currentRow = 5
+        currentColumn = 0
+        for c in range(5):
+            words[5][c] = '0'
+            feedback[5][c] = 'X'
 
 def checkDataBase(word):  # TODO : binary search / use a dict
     global database
