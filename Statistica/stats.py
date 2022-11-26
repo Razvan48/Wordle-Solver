@@ -54,8 +54,8 @@ for i in range(len(database)):
 file = open(os.path.join(os.path.dirname(__file__), "solutii.txt"), 'w')
 file.write(tries_output)
 file.close()
-file = open(os.path.join(os.path.dirname(__file__), "medie.txt"), 'w')
+
 average = total_tries / len(database)
+file = open(os.path.join(os.path.dirname(__file__), "medie.txt"), 'w')
 file.write("Media este: " + str(average))
 file.close()
-
