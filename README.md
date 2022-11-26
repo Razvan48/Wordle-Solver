@@ -68,7 +68,7 @@ Dupa ghicirea cuvantului, daca user-ul apasa tasta "N", jocul va reincepe cu un 
 Media incercarilor a fost calculata prin parcurgerea intregii baze de date si rularea codului pentru fiecare cuvant. 
 Pentru a grabi procesul, fisierul "sol.py" contine o clasa cu functiile esentiale pentru ghicirea cuvantului, fara sa se
 mai tina cont de interfata grafica (creata cu ajutorul functiilor bibliotecii "pygame").
-Media este stocata in fisierul "medie.txt", iar lantul incercarilor pentru fiecare cuvant in fisierul "metodaCuvinte.txt".
+
 
 <br />
 
