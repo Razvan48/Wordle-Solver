@@ -33,7 +33,7 @@ if __name__ == '__main__':
         fileline = file.readline()
     file.close()
 
-    tries_output = " "
+    tries_output = ""
     total_tries = 0
     for i in range(len(database)):
         hiddenWord = database[i]
@@ -45,14 +45,15 @@ if __name__ == '__main__':
             bestWord = sol.getBestWord(words)
             feedback = getFeedback(bestWord, hiddenWord)
             sol.deleteUnwantedWords(words, feedback, bestWord)
-            tries_output += bestWord + " "
+
             number_of_tries += 1
             if bestWord == hiddenWord:
-                number_of_tries -= 1
                 total_tries += number_of_tries
+                tries_output += bestWord + " "
                 tries_output += "\n"
                 break
-                #print(hiddenWord)
+            else:
+                tries_output += bestWord + ", "
     #file = open(os.path.join(os.path.dirname(__file__), "metoda1Cuvinte.txt"), 'w')
     file = open(os.path.join(os.path.dirname(__file__), "metoda2Cuvinte.txt"), 'w')
     file.write(tries_output)
