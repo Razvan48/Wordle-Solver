@@ -1,10 +1,9 @@
 # Wordle Solver 
 Primul proiect de la [Arhitectura Sistemelor de Calcul](https://cs.unibuc.ro/~crusu/asc/index.html)
 
-### Player input                       Solver input
 <p>
-  <img align = "left" width="400" height="533" src="https://github.com/sebimih13/Wordle-Solver/blob/main/gifs/wordle%20game.gif">
-  <img align = "right" width="400" height="533" src="https://github.com/sebimih13/Wordle-Solver/blob/main/gifs/solver.gif">
+  <img align = "left" width="400" height="533" src="https://github.com/sebimih13/Wordle-Solver/blob/main/gifs/player%20input.gif">
+  <img align = "right" width="400" height="533" src="https://github.com/sebimih13/Wordle-Solver/blob/main/gifs/solver%20input.gif">
 </p>
 
 <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
