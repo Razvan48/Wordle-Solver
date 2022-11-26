@@ -164,14 +164,6 @@ class Grid:
                 square = Square(squareWidth, squareHeight, row, column)
                 square.draw()
 
-def animationFunction(time):
-    global direction
-    #return 2 * direction * math.sin(time) * math.sin(time)
-    #return direction * time
-    if time != 0:
-        return direction * 3 / math.sqrt(time)
-    else:
-        return 0
 def checkWord():
     global currentRow
     global currentColumn
@@ -189,6 +181,7 @@ def checkWord():
         wordsCounter += 1
         currentRow += 1
         currentColumn = 0
+
     else:
         print("Word isn't in database")
         wrongWord = True
@@ -196,7 +189,7 @@ def checkWord():
             feedback[currentRow][i] = 'R'
 
     if currentRow == 6:
-        # Move words[][] + feedback[][]
+     # Move words[][] + feedback[][]
         for r in range(5):
             words[r] = words[r + 1].copy()
             feedback[r] = feedback[r + 1].copy()
@@ -207,6 +200,16 @@ def checkWord():
         for c in range(5):
             words[5][c] = '0'
             feedback[5][c] = 'X'
+
+
+def animationFunction(time):
+    global direction
+    #return 2 * direction * math.sin(time) * math.sin(time)
+    #return direction * time
+    if time != 0:
+        return direction * 3 / math.sqrt(time)
+    else:
+        return 0
 
 def wordFeedback():
     global endGame
@@ -254,8 +257,6 @@ def checkInput(eventToHandle):
                 enableAnimation = True
             else:
                 print("Word is not valid")
-
-
 
 def checkDataBase(word):  # TODO : binary search / use a dict
     global database
@@ -363,7 +364,7 @@ if __name__ == '__main__':
                 checkInput(event)
 
             if endGame and event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_r:
+                if event.key == pygame.K_n:
                     newWord()
 
         # Solver Input
