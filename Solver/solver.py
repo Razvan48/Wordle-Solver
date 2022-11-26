@@ -110,8 +110,8 @@ def getBestWord(words):
     for word1 in words:
         for index in range(len(frequency)):
             frequency[index] = 0
-        for word2 in words:
-            fb = giveFeedback(word1, word2)
+        for index2 in range(min(243, len(words))):
+            fb = giveFeedback(word1, words[index2])
             frequency[giveHash(fb)] += 1
         currentEntropy = 0
         for x in range(len(frequency)):
