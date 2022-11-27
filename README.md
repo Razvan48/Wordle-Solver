@@ -45,33 +45,21 @@ python solver.py
 
 ## Descrierea proiectului
 
-Proiectul contine 2 fisiere principale, "solver.py" si "wordle.py", care comunica prin IPC.
-Solver-ul incepe prin a genera cu ajutorul entropiei cel mai favorabil cuvant ("bestWord") si il trimite catre wordle.py prin functia
-"sendBestWord()", iar pe baza feedback-ului primit inapoi prin functia "receiveFeedback()" isi restrange aria de cautare, eliminand
-cuvintele care nu sunt in concordanta cu feedback-ul.
-Feedback-ul primit este format din 5 caractere care pot fi 'V' (verde), 'G'(galben) sau 'N' (negru). Verde inseamna ca litera de pe pozitia
-respectiva se afla
-pe aceeasi pozitie si in cuvantul care trebuie ghicit ("hiddenWord"), galben inseamna ca litera se afla in hiddenWord dar pe alta pozitie, iar negru
-inseamna ca nu se gadeste deloc.
-Pentru a modifica viteza cu care sunt afisate cuvintele pe ecran, s-a folosit variabila "canReadWrite" care se activeaza pentru o singura iteratie
-la o anumita perioada de timp. 
-Solver-ul trimite "bestWord-ul" printr-un singur mesaj, dar fiecare litera este afisata pe rand cu ajutorul variabilei "indexSolver" care se modifica
-la fiecare iteratie in care variabila "canReadWrite" este activa.
+Proiectul contine 2 fisiere principale ___solver.py___ si ___wordle.py___, care comunica prin IPC.  
 
-Solver-ul se opreste atunci cand feebdack-ul pe care il primeste este "VVVVV", adica atunci cand cuvantul a fost gasit.
+La rularea ___solver.py___ se va deschide automat jocul wordle, unde vor fi trimise incercarile solver-ului de a gasi cuvantul ales de joc.  
+Solver-ul incepe prin a genera cu ajutorul entropiei cel mai favorabil cuvant si il trimite catre ___wordle.py___, iar pe baza feedback-ului primit, isi restrange aria de cautare, eliminand cuvintele care nu sunt in concordanta cu feedback-ul.  
 
-Daca valoarea din "gameMode.txt" este 0, inseamna ca utilizatorul va juca in locul inteligentei artificiale, iar solver-ul nu mai este rulat.
-Daca user-ul introduce un cuvant care nu se afla in baza de date, patratele se vor colora cu rosu in loc de verde, galben sau negru
-si se va genera o animatie de scurta durata prin care randul respectiv se depaseaza succesiv la stanga si la dreapta. 
-Dupa ghicirea cuvantului, daca user-ul apasa tasta "N", jocul va reincepe cu un nou cuvant de ghicit fara a rula din nou programul.
+Feedback-ul primit este format din 5 caractere care pot fi:  
+- ![#538D4E](https://placehold.co/15x15/538D4E/538D4E.png) &rarr; _V_  : litera de pe pozitia respectiva se afla pe aceeasi pozitie si in cuvantul care trebuie ghicit
+- ![#B7A148](https://placehold.co/15x15/B7A148/B7A148.png) &rarr; _G_  : litera se afla in cuvant, dar pe alta pozitie
+- ![#3A3A3C](https://placehold.co/15x15/3A3A3C/3A3A3C.png) &rarr; _N_  : cuvantul ales nu contine aceasta litera  
 
-Media incercarilor a fost calculata prin parcurgerea intregii baze de date si rularea codului pentru fiecare cuvant. 
-Pentru a grabi procesul, fisierul "sol.py" contine o clasa cu functiile esentiale pentru ghicirea cuvantului, fara sa se
-mai tina cont de interfata grafica (creata cu ajutorul functiilor bibliotecii "pygame").
-
+La rularea ___wordle.py___ se va deschide jocul wordle, care va primi informatii direct de la jucator.  
+Daca user-ul introduce un cuvant care nu se afla in baza de date, patratele se vor colora cu rosu si se va genera o animatie de scurta durata.
+Dupa ghicirea cuvantului, daca user-ul apasa tasta ___"N"___, jocul va reincepe cu un nou cuvant de ghicit fara a reporni programul.
 
 <br />
-
 
 ## Referinte
 - [pygame documentation](https://www.pygame.org/docs/)
