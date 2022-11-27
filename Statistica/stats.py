@@ -23,6 +23,7 @@ def getFeedback(word, hiddenWord):
 database = []
 file = open(os.path.join(os.path.dirname(__file__), "../database.txt"), 'r')
 fileline = file.readline()
+
 while fileline:
     fileline = fileline[:-1]
     database.append(fileline)
@@ -31,12 +32,14 @@ file.close()
 
 tries_output = ""
 total_tries = 0
+
 for i in range(len(database)):
     hiddenWord = database[i]
     endGame = False
     words = database.copy()
     tries_output += hiddenWord + ": "
     number_of_tries = 0
+    
     while True:
         bestWord = sol.getBestWord(words)
         feedback = getFeedback(bestWord, hiddenWord)
@@ -50,6 +53,7 @@ for i in range(len(database)):
             break
         else:
             tries_output += bestWord + ", "
+
 file = open(os.path.join(os.path.dirname(__file__), "solutii.txt"), 'w')
 file.write(tries_output)
 file.close()
