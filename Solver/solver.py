@@ -30,6 +30,19 @@ print('connection accepted from', listener.last_accepted)
 ALPHABET_SIZE = 26
 LETTERS_IN_WORD = 5
 
+def readWords(address, words):
+    words.clear()
+    file = open(address, 'r')
+    fileline = file.readline()
+    while fileline:
+        words.append(fileline)
+        fileline = file.readline()
+    file.close()
+
+    index = 0
+    while index < len(words):
+        words[index] = words[index][:-1]
+        index += 1
 
 def getBestWord(words):
 
@@ -57,20 +70,6 @@ def getBestWord(words):
 
      return bestWord
 
-
-def readWords(address, words):
-    words.clear()
-    file = open(address, 'r')
-    fileline = file.readline()
-    while fileline:
-        words.append(fileline)
-        fileline = file.readline()
-    file.close()
-
-    index = 0
-    while index < len(words):
-        words[index] = words[index][:-1]
-        index += 1
 
 
 def ok(currentWord, feedback, word):

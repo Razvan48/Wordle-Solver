@@ -91,7 +91,7 @@ currentColumn = 0
 wrongWord = False
 endGame = False
 wordsCounter = 0
-indexSolver = 0
+letterIndexBestWord = 0
 
 enableAnimation = False
 deltaAnimation = 0
@@ -140,9 +140,6 @@ class Square:
 
             textWidth = self.fillSquareWidth + self.fillSquareSize // 2 - textChar.get_width() // 2
             textHeight = self.fillSquareHeight + self.fillSquareSize // 2 - textChar.get_height() // 2
-
-            #if self.row == currentRow:
-             #   textWidth -= animationFunction(deltaAnimation)
 
             screen.blit(textChar, (textWidth, textHeight))
 
@@ -214,6 +211,7 @@ def checkInput(eventToHandle):
             if currentColumn == 5:
                 checkWord()
                 if startAnimation:
+                    # the animation will start again from the beginning
                     startAnimation = False
                 enableAnimation = True
             else:
@@ -298,11 +296,14 @@ def newWord():
     global hiddenWord
     global currentColumn
     global currentRow
-    global indexSolver
+    global letterIndexBestWord
     global wordsCounter
 
     endGame = False
+
+    # Choose a random word
     hiddenWord = random.choice(database)
+
     for row in range(6):
         for column in range(5):
             feedback[row][column] = 'X'
@@ -334,7 +335,7 @@ if __name__ == '__main__':
     checkForInputTimer = 0.7 
     timer = 0
 
-    # Animation settings
+    # Animation
     animationTime = 2.0
     startAnimation = False
 
@@ -368,14 +369,14 @@ if __name__ == '__main__':
 
         # Solver Input
         if (not endGame) and (not playerInput) and canReadWrite:
-            if indexSolver == 0: # indexul caracterului din bestWord care trb afisat
+            if letterIndexBestWord == 0:
                 #Listener first
                 bestWord = receiveBestWord()
 
-            words[currentRow][indexSolver] = bestWord[indexSolver]
-            if indexSolver == 4:
+            words[currentRow][letterIndexBestWord] = bestWord[letterIndexBestWord]
+            if letterIndexBestWord == 4: # all the letters have been displayed
                 checkWord()
-                indexSolver = 0
+                letterIndexBestWord = 0
 
                 #Client second
 
@@ -384,7 +385,7 @@ if __name__ == '__main__':
                     fb += feedback[currentRow - 1][i]
                 sendFeedback(fb)
             else:
-                indexSolver += 1
+                letterIndexBestWord += 1
 
         # Animation settings
         if startAnimation == False and wrongWord and enableAnimation:
@@ -393,16 +394,14 @@ if __name__ == '__main__':
             deltaAnimation = 0
 
         if startAnimation == True:
-            if wrongWord == False:
-                startAnimation = False
-                enableAnimation = False
-                deltaAnimation = 0
-            elif deltaAnimation > animationTime:
+            if wrongWord == False or deltaAnimation > animationTime:
+                # stop the animation
                 startAnimation = False
                 enableAnimation = False
                 deltaAnimation = 0
             else:
-                deltaAnimation = (pygame.time.get_ticks() - start_t)/1000
+                # continue the animation
+                deltaAnimation = (pygame.time.get_ticks() - start_t) / 1000
                 direction *= -1
         
         # draw interface
