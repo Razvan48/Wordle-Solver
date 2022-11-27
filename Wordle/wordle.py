@@ -14,7 +14,6 @@ playerInput = True
 if fileline[0] == "1":
     playerInput = False
 
-
 file.close()
 
 # Solver Input
@@ -51,15 +50,15 @@ backgroundColor = (18, 18, 19)
 screen.fill(backgroundColor)
 
 # Text
-titleFont = pygame.font.Font(None, 50)  # TODO : ADD NEW FONT
-charFont = pygame.font.Font(None, 64)  # TODO : 64 = gridSquareSize - gridSpace * 2
+titleFont = pygame.font.Font(None, 50)
+charFont = pygame.font.Font(None, 64)
 textWordle = titleFont.render("Wordle", True, "White")
 
 # Grid Configuration
-squareSpace = 8  # TODO : find a good value (between squares)
-gridSpace = 3  # TODO : find a good value (between grid and fill square)
-gridSquareSize = 70  # TODO : find a good value (grid size)
-startSquareHeight = 150  # TODO : find a good value
+squareSpace = 8
+gridSpace = 3
+gridSquareSize = 70
+startSquareHeight = 150
 
 # Words
 words = [
@@ -98,6 +97,8 @@ enableAnimation = False
 deltaAnimation = 0
 startAnimation = False
 direction = 1
+
+
 # classes + functions
 class Square:
     def __init__(self, gridSquareWidth, gridSquareHeight, row, column):
@@ -119,7 +120,6 @@ class Square:
 
 
     def draw(self):
-
         color = self.gridColor
         if feedback[self.row][self.column] == 'N':
             color = self.blackColor
@@ -133,8 +133,7 @@ class Square:
         pygame.draw.rect(screen, color, (self.gridSquareWidth, self.gridSquareHeight, gridSquareSize, gridSquareSize))
 
         if feedback[self.row][self.column] == 'X':
-            pygame.draw.rect(screen, self.squareColor,
-                             (self.fillSquareWidth, self.fillSquareHeight, self.fillSquareSize, self.fillSquareSize))
+            pygame.draw.rect(screen, self.squareColor, (self.fillSquareWidth, self.fillSquareHeight, self.fillSquareSize, self.fillSquareSize))
 
         if words[self.row][self.column] != '0':
             textChar = charFont.render(words[self.row][self.column], True, "White")
@@ -176,6 +175,7 @@ def animationFunction(time):
 def wordFeedback():
     global endGame
     global hiddenWord
+    
     for i in range(5):
         if hiddenWord[i] == words[currentRow][i]:
             feedback[currentRow][i] = 'V'
@@ -188,7 +188,6 @@ def wordFeedback():
                 feedback[currentRow][i] = 'N'
     if hiddenWord == "".join(words[currentRow]):
         endGame = True
-
 
 
 def checkInput(eventToHandle):
@@ -208,7 +207,6 @@ def checkInput(eventToHandle):
             currentColumn = max(currentColumn - 1, 0)
             words[currentRow][currentColumn] = '0'
             if wrongWord == True:
-
                 wrongWord = False
                 for i in range(5):
                     feedback[currentRow][i] = 'X'
@@ -253,7 +251,7 @@ def checkWord():
         currentColumn = 0
 
     if currentRow == 6:
-    # Move words[][] + feedback[][]
+        # Move words[][] + feedback[][]
         for r in range(5):
             words[r] = words[r + 1].copy()
             feedback[r] = feedback[r + 1].copy()
@@ -264,7 +262,8 @@ def checkWord():
             words[5][c] = '0'
             feedback[5][c] = 'X'
 
-def checkDataBase(word):  # TODO : binary search / use a dict
+
+def checkDataBase(word): 
     global database
 
     for w in database:
@@ -273,17 +272,12 @@ def checkDataBase(word):  # TODO : binary search / use a dict
     return False
 
 
-listenerMsg = ''
-
 def sendFeedback(clientMsg):
     print("Send to solver : " + clientMsg)
     connClient.send(clientMsg)
 
-    # TODO : close
-    # if clientMsg == "exit":
-    #     connClient.close()
-    #     break
 
+listenerMsg = ''
 def receiveBestWord():
     global listenerMsg
 
@@ -291,12 +285,13 @@ def receiveBestWord():
         listenerMsg = connListener.recv()
         print("From solver : ", listenerMsg)
 
-        # TODO : close
-        # if listenerMsg == "exit":
-        #     connListener.close()
-        #     listener.close()
-
     return listenerMsg
+
+
+def closeConnection():
+    connClient.close()
+    connListener.close()
+    listener.close()
 
 def newWord():
     global endGame
@@ -318,8 +313,6 @@ def newWord():
     print("New hidden word : ", hiddenWord)
 
 
-
-
 if __name__ == '__main__':
 
     # Database
@@ -338,7 +331,7 @@ if __name__ == '__main__':
 
     # Timer
     getTicksLastFrame = 0
-    checkForInputTimer = 0.7  # TODO : Find a good value for timer
+    checkForInputTimer = 0.7 
     timer = 0
 
     # Animation settings
@@ -375,7 +368,7 @@ if __name__ == '__main__':
 
         # Solver Input
         if (not endGame) and (not playerInput) and canReadWrite:
-            if indexSolver == 0: #indexul caracterului din bestWord care trb afisat
+            if indexSolver == 0: # indexul caracterului din bestWord care trb afisat
                 #Listener first
                 bestWord = receiveBestWord()
 
@@ -394,9 +387,8 @@ if __name__ == '__main__':
                 indexSolver += 1
 
         # Animation settings
-
         if startAnimation == False and wrongWord and enableAnimation:
-            start_t = pygame.time.get_ticks() #time when the animation starts
+            start_t = pygame.time.get_ticks() # time when the animation starts
             startAnimation = True
             deltaAnimation = 0
 
@@ -412,8 +404,8 @@ if __name__ == '__main__':
             else:
                 deltaAnimation = (pygame.time.get_ticks() - start_t)/1000
                 direction *= -1
+        
         # draw interface
-
         textWidth = SCR_WIDTH // 2 - textWordle.get_width() // 2
         screen.blit(textWordle, (textWidth, 50))
 
@@ -421,23 +413,22 @@ if __name__ == '__main__':
         grid = Grid()
         grid.draw()
 
-        # draw win/loss
+        # draw winner
         if endGame:
             textResult = titleFont.render("WINNER", True, "Green")
             textWidth = SCR_WIDTH // 2 - textResult.get_width() // 2
             screen.blit(textResult, (textWidth, 100))
 
-
-            #elif not playerInput:
-
         # draw words counter
         textCounter = titleFont.render("Counter : " + str(wordsCounter), True, "White")
         textWidth = SCR_WIDTH // 2 - textCounter.get_width() // 2
         screen.blit(textCounter, (textWidth, 660))
+        
         # refresh
         pygame.display.update()
         clock.tick(60)
         screen.fill(backgroundColor)
 
-# TODO : Show all characters
-# TODO : words[][] and feedback[][] -> Configure based on a variable (tableRows = 6)
+if not playerInput:
+    closeConnection()
+

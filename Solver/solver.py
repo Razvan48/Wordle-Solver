@@ -2,7 +2,7 @@
 
 import math
 import os
-import pygame
+
 # Solver Client + Listener
 from multiprocessing.connection import Client
 from multiprocessing.connection import Listener
@@ -44,21 +44,6 @@ def getBestWord(words):
          for columnIndex in range(LETTERS_IN_WORD):
              probability[rowIndex][columnIndex] = frequency[rowIndex][columnIndex] / len(words)
 
-#     ###Start alta metoda
-#
-#     #bestWord = words[0]
-#     #bestInformation = 0
-#
-#     #for word in words:
-#          #currentInformation = 0
-#          #for letterIndex in range(LETTERS_IN_WORD):
-#              #currentInformation += frequency[ord(word[letterIndex]) - ord('A')][letterIndex]
-#          #if currentInformation > bestInformation:
-#              #bestInformation = currentInformation
-#              #bestWord = word
-#
-#     ###End alta metoda
-#
      bestWord = words[0]
      bestEntropy = 0
 
@@ -121,11 +106,6 @@ def sendBestWord(word):
     connClient.send(word)
     print("Send to game : ", word)
 
-    # TODO : close
-    # if word == "exit":
-    #     connClient.close()
-    #     break
-
 
 listenerMsg = ''
 def receiveFeedback():
@@ -135,13 +115,14 @@ def receiveFeedback():
         listenerMsg = connListener.recv()
         print("From game : ", listenerMsg)
 
-        # TODO : close
-        # if listenerMsg == "exit":
-        #     connListener.close()
-        #     listener.close()
-
     return listenerMsg
 
+
+def closeConnection():
+    connClient.close()
+    connListener.close()
+    listener.close()
+    
 
 words = []
 readWords(os.path.join(os.path.dirname(__file__), '../database.txt'), words)
@@ -155,17 +136,19 @@ file.close()
 while True:
 
     if feedback == "VVVVV":
-            wordToSend = "exit"
+        wordToSend = "exit"
     else:
         wordToSend = getBestWord(words)
 
     # Daca am gasit cuvantul corect -> termina programul
     if wordToSend == "exit":
-                break
+        break
 
     # Altfel continua sa ghicesti
     sendBestWord(wordToSend)
     feedback = receiveFeedback()
 
     deleteUnwantedWords(words, feedback, wordToSend)
+
+closeConnection()
 
