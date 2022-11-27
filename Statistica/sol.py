@@ -5,6 +5,8 @@ LETTERS_IN_WORD = 5
 
 
 class solution:
+
+
     def getBestWord(self, words):
         frequency = [[0 for y in range(LETTERS_IN_WORD)] for x in range(ALPHABET_SIZE)]
         probability = [[0 for y in range(LETTERS_IN_WORD)] for x in range(ALPHABET_SIZE)]
@@ -29,6 +31,8 @@ class solution:
                 bestWord = word
 
         return bestWord
+
+
     def deleteUnwantedWords(self, words, feedback, word):
         if feedback == "":
             return
@@ -40,6 +44,8 @@ class solution:
                 words.remove(words[index])
                 index -= 1
             index += 1
+
+
     def ok(self, currentWord, feedback, word):
         index = 0
         while index < len(feedback):
@@ -52,4 +58,5 @@ class solution:
             index += 1
 
         return True
+
 

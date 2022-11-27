@@ -4,6 +4,7 @@ import os
 from sol import solution
 sol = solution()
 
+
 def getFeedback(word, hiddenWord):
     feedback = []
     for i in range(5):
@@ -53,6 +54,7 @@ for i in range(len(database)):
             break
         else:
             tries_output += bestWord + ", "
+
 
 file = open(os.path.join(os.path.dirname(__file__), "solutii.txt"), 'w')
 file.write(tries_output)
