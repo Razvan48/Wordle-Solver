@@ -21,7 +21,7 @@ The chain of attempts for each word (in the database) is written in the file [__
 
 ## Requirements
 _Python 3.9_ 🐍   
-[_pygame_](https://www.pygame.org/wiki/GettingStarted)   &rarr;   `pip install pygame`
+[_PyGame_](https://www.pygame.org/wiki/GettingStarted)   &rarr;   `pip install pygame`
 
 <br/>
 
@@ -58,7 +58,7 @@ After guessing the word, if the user presses the key ___"N"___, the game will re
 <br/>
 
 ## References
-- [pygame documentation](https://www.pygame.org/docs/)
-- [wordle](https://www.youtube.com/watch?v=v68zYyaEmEA&ab_channel=3Blue1Brown)
+- [PyGame Documentation](https://www.pygame.org/docs/)
+- [Wordle](https://www.youtube.com/watch?v=v68zYyaEmEA&ab_channel=3Blue1Brown)
 
 
