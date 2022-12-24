@@ -30,12 +30,12 @@ _Python 3.9_ 🐍
 
 ## Instructions for Use
 
-### To play Wordle &rarr; [wordle.py](https://github.com/sebimih13/Wordle-Solver/blob/main/Wordle/wordle.py)
+### To play Wordle &rarr; [wordle.py](https://github.com/Razvan48/Wordle-Solver/blob/main/Wordle/wordle.py)
 ```python
 python wordle.py
 ```
 
-### To run the solver &rarr; [solver.py](https://github.com/sebimih13/Wordle-Solver/blob/main/Solver/solver.py)
+### To run the solver &rarr; [solver.py](https://github.com/Razvan48/Wordle-Solver/blob/main/Solver/solver.py)
 ```python
 python solver.py
 ```
@@ -47,17 +47,17 @@ python solver.py
 
 The project contains 2 main files ___solver.py___ and ___wordle.py___, which communicates using IPC (Inter-Process Communication).
 
-La rularea ___solver.py___ se va deschide automat jocul wordle, unde vor fi trimise încercările solver-ului de a găsi cuvântul ales de joc.  
-Solver-ul începe prin a genera cu ajutorul entropiei cel mai favorabil cuvânt si îl trimite către ___wordle.py___, iar pe baza feedback-ului primit, își restrânge aria de căutare, eliminând cuvintele care nu sunt in concordanță cu feedback-ul.  
+When running ___solver.py___ the Wordle game will automatically open, where the solver's attempts to find the word chosen by the game will be sent. 
+The solver starts by generating with the help of entropy the most favorable word and sends it to ___wordle.py___, and based on the feedback received, it narrows its search area, eliminating words that are not consistent with the feedback.
 
-Feedback-ul primit este format din 5 caractere care pot fi:  
-- ![#538D4E](https://placehold.co/15x15/538D4E/538D4E.png) &rarr; _V_  : litera de pe poziția respectivă se află pe aceeași poziție și în cuvântul care trebuie ghicit
-- ![#B7A148](https://placehold.co/15x15/B7A148/B7A148.png) &rarr; _G_  : litera se află în cuvânt, dar pe altă poziție
-- ![#3A3A3C](https://placehold.co/15x15/3A3A3C/3A3A3C.png) &rarr; _N_  : cuvântul ales nu conține această literă 
+The received feedback consists of 5 characters which can be:
+- ![#538D4E](https://placehold.co/15x15/538D4E/538D4E.png) &rarr; _V_  : the letter in that position is in the same position in the word to be guessed
+- ![#B7A148](https://placehold.co/15x15/B7A148/B7A148.png) &rarr; _G_  : the letter is in the word, but in a different position
+- ![#3A3A3C](https://placehold.co/15x15/3A3A3C/3A3A3C.png) &rarr; _N_  : the chosen word does not contain this letter
 
-La rularea ___wordle.py___ se va deschide jocul wordle, care va primi informații direct de la jucător.  
-Dacă user-ul introduce un cuvânt care nu se află în baza de date, pătratele se vor colora cu roșu si se va genera o animație de scurtă durată.
-După ghicirea cuvântului, dacă user-ul apasă tasta ___"N"___, jocul va reîncepe cu un nou cuvânt de ghicit fără a reporni programul.
+When running ___wordle.py___ the Wordle game will open, receiving information directly from the player. 
+If the user enters a word that is not in the database, the squares will be colored red and a short animation will run.
+After guessing the word, if the user presses the key ___"N"___, the game will restart with a new guess word without closing and reopening the program.
 
 <br />
 
