@@ -14,8 +14,8 @@ The first project in the course [Computer Systems Architecture](https://cs.unibu
     2. Mihalache Sebastian Ștefan   - 152
     3. Petre-Șoldan Adela           - 131
     
-[Mihalache Sebastian Ștefan](https://github.com/sebimih13)
-[Petre-Șoldan Adela](https://github.com/adelp13)
+[Mihalache Sebastian Ștefan (https://github.com/sebimih13)](https://github.com/sebimih13) <br/>
+[Petre-Șoldan Adela (https://github.com/adelp13)](https://github.com/adelp13) <br/>
 
 Average number of attempts to guess the words  &rarr;  __4.91871835166754__  
 The chain of attempts for each word (in the database) is written in the file [__solutii.txt__](https://github.com/Razvan48/Wordle-Solver/blob/main/Statistica/solutii.txt)
