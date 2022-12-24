@@ -51,7 +51,7 @@ The received feedback consists of 5 characters which can be:
 - ![#B7A148](https://placehold.co/15x15/B7A148/B7A148.png) &rarr; _G_  : the letter is in the word, but in a different position
 - ![#3A3A3C](https://placehold.co/15x15/3A3A3C/3A3A3C.png) &rarr; _N_  : the chosen word does not contain this letter
 
-When running ___wordle.py___, the Wordle game will open, receiving information directly from the player. 
+When running ___wordle.py___, the Wordle game opens, receiving information directly from the player. 
 If the user enters a word that is not in the database, the squares will be colored red and a short animation will run.
 After guessing the word, if the user presses the key ___"N"___, the game will restart with a new guess word without the need of closing and reopening the program.
 
