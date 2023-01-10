@@ -38,7 +38,7 @@ for i in range(len(database)):
     hiddenWord = database[i]
     endGame = False
     words = database.copy()
-    tries_output += hiddenWord + ": "
+    tries_output += hiddenWord + ", "
     number_of_tries = 0
     
     while True:
