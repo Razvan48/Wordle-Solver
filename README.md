@@ -1,5 +1,5 @@
 # Wordle Solver 
-The first project in the course [Computer Systems Architecture](https://cs.unibuc.ro/~crusu/asc/index.html)
+&emsp; The first project in the course [Computer Systems Architecture](https://cs.unibuc.ro/~crusu/asc/index.html) <br/>
 
 <p>
   <img align = "left" width="400" height="533" src="https://github.com/Razvan48/Wordle-Solver/blob/main/gifs/player%20input.gif">
