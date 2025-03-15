@@ -1,3 +1,10 @@
+# Wordle-Solver
+&emsp; Proiect Arhitectura Sistemelor de Calcul (ASC) Anul 1, Semestrul 1, Facultatea de Matematica si Informatica, Universitatea din Bucuresti
+
+<br/>
+<br/>
+<br/>
+
 # Wordle Solver 
 Primul proiect din cadrul cursului [Arhitectura Sistemelor de Calcul](https://cs.unibuc.ro/~crusu/asc/index.html)
 
